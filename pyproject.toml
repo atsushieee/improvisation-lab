@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "improvisation-lab"
+version = "0.1.0"
+description = ""
+authors = ["atsushieee <atsushi.tabata1204@gmail.com>"]
+readme = "README.md"
+packages = [{include = "improvisation_lab"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.13.0"
+black = "^24.10.0"
+isort = "^5.13.2"
+pydocstyle = "^6.3.0"
+pytest = "^8.3.3"
+pyproject-flake8 = "^7.0.0"
+
+[tool.flake8]
+max-line-length = 88
+extend-ignore = "E203"
+
+[tool.black]
+line-length = 88
+
+[tool.mypy]
+ignore_missing_imports = "True"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
