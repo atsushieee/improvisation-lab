@@ -51,6 +51,19 @@ class TestNotes:
         with pytest.raises(ValueError):
             Notes.get_chromatic_scale("Z")
 
+    def test_frequency_to_note_name(self):
+        """Test that frequency_to_note_name returns correct note names."""
+        test_cases = [
+            (440.0, "A4"),
+            (261.63, "C4"),
+            (329.63, "E4"),
+            (493.88, "B4"),
+            (880.0, "A5"),
+        ]
+
+        for frequency, expected_note in test_cases:
+            assert Notes.frequency_to_note_name(frequency) == expected_note
+
 
 class TestScale:
     def test_get_scale_notes_returns_correct_notes(self):

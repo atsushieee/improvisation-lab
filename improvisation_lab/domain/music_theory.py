@@ -2,6 +2,8 @@
 
 from enum import Enum
 
+import numpy as np
+
 
 class Notes(str, Enum):
     """Enumeration of musical notes in chromatic scale.
@@ -60,6 +62,30 @@ class Notes(str, Enum):
         start_idx = cls.get_note_index(note)
         all_notes = [note.value for note in cls]
         return all_notes[start_idx:] + all_notes[:start_idx]
+
+    @classmethod
+    def frequency_to_note_name(cls, frequency: float) -> str:
+        """Convert a frequency in Hz to the nearest note name on a piano keyboard.
+
+        Args:
+            frequency: The frequency in Hz.
+
+        Returns:
+            The name of the nearest note.
+        """
+        A4_frequency = 440.0
+        # Calculate the number of semitones from A4 (440Hz)
+        n = 12 * np.log2(frequency / A4_frequency)
+
+        # Round to the nearest semitone
+        n = round(n)
+
+        # Calculate octave and index of note name with respect to A4
+        octave = 4 + (n + 9) // 12
+        note_idx = (n + 9) % 12
+
+        note = cls.get_chromatic_scale(cls.C)[note_idx]
+        return f"{note}{octave}"
 
 
 class Scale:
