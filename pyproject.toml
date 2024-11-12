@@ -8,6 +8,9 @@ packages = [{include = "improvisation_lab"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
+torch = "2.2.2"
+torchfcpe = "^0.0.4"
+numpy = "1.26.4"
 
 
 [tool.poetry.group.dev.dependencies]
