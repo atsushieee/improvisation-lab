@@ -4,7 +4,10 @@ version = "0.1.0"
 description = ""
 authors = ["atsushieee <atsushi.tabata1204@gmail.com>"]
 readme = "README.md"
-packages = [{include = "improvisation_lab"}]
+packages = [
+    {include = "improvisation_lab"},
+    {include = "scripts"}
+]
 
 [tool.poetry.dependencies]
 python = "^3.11"

@@ -20,3 +20,7 @@ format:
 .PHONY: test
 test:
 	poetry run pytest -vs tests
+
+.PHONY: pitch-demo
+pitch-demo:
+	poetry run python scripts/pitch_detection_demo.py
