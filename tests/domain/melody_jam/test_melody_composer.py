@@ -2,15 +2,15 @@
 
 import pytest
 
-from improvisation_lab.domain.melody_jam import MelodyGenerator, MelodyPlayer
+from improvisation_lab.domain.melody_jam import MelodyComposer, PhraseGenerator
 
 
-class TestMelodyPlayer:
+class TestMelodyComposer:
     @pytest.fixture
     def init_module(self):
         """Initialize test module."""
-        self.melody_generator = MelodyGenerator()
-        self.melody_player = MelodyPlayer(self.melody_generator)
+        self.phrase_generator = PhraseGenerator()
+        self.melody_composer = MelodyComposer(self.phrase_generator)
 
     @pytest.mark.usefixtures("init_module")
     def test_generate_phrases_basic(self):
@@ -20,7 +20,7 @@ class TestMelodyPlayer:
             ("A", "natural_minor", "A", "min7", 4),
         ]
 
-        phrases = self.melody_player.generate_phrases(progression)
+        phrases = self.melody_composer.generate_phrases(progression)
 
         # Test number of phrases
         assert len(phrases) == 2
@@ -42,7 +42,7 @@ class TestMelodyPlayer:
     @pytest.mark.usefixtures("init_module")
     def test_generate_phrases_empty_progression(self):
         """Test handling of empty progression."""
-        phrases = self.melody_player.generate_phrases([])
+        phrases = self.melody_composer.generate_phrases([])
         assert len(phrases) == 0
 
     @pytest.mark.usefixtures("init_module")
@@ -53,7 +53,7 @@ class TestMelodyPlayer:
             ("C", "major", "F", "maj7", 2),
         ]
 
-        phrases = self.melody_player.generate_phrases(progression)
+        phrases = self.melody_composer.generate_phrases(progression)
 
         # Get the last note of first phrase
         last_note = phrases[0].notes[-1]
@@ -61,9 +61,9 @@ class TestMelodyPlayer:
         first_note = phrases[1].notes[0]
 
         # Verify that the connection follows melody generator rules
-        if not self.melody_generator.is_chord_tone(last_note, ["C", "E", "G", "B"]):
+        if not self.phrase_generator.is_chord_tone(last_note, ["C", "E", "G", "B"]):
             # If last note wasn't a chord tone, first note should be adjacent
-            adjacent_notes = self.melody_generator.get_adjacent_notes(
+            adjacent_notes = self.phrase_generator.get_adjacent_notes(
                 last_note, ["C", "D", "E", "F", "G", "A", "B"]
             )
             assert first_note in adjacent_notes

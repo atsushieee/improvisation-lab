@@ -5,12 +5,12 @@ from time import sleep
 from improvisation_lab.config import AudioConfig, ChordProgression
 from improvisation_lab.domain.music_theory import Notes
 from improvisation_lab.domain.audio_input import MicInput, PitchDetector
-from improvisation_lab.domain.melody_jam import MelodyGenerator, MelodyPlayer
+from improvisation_lab.domain.melody_jam import PhraseGenerator, MelodyComposer
 
 class MelodyApp:
     def __init__(self):
-        self.melody_generator = MelodyGenerator()
-        self.melody_player = MelodyPlayer(self.melody_generator)
+        self.phrase_generator = PhraseGenerator()
+        self.melody_composer = MelodyComposer(self.phrase_generator)
         self.pitch_detector = PitchDetector(sample_rate=AudioConfig.SAMPLE_RATE)
         self.mic_input = MicInput(
             sample_rate=AudioConfig.SAMPLE_RATE,
@@ -22,14 +22,14 @@ class MelodyApp:
         frequency = self.pitch_detector.detect_pitch(audio_data)
         target_note = "---" if self.current_note is None else self.current_note
         if frequency > 0:  # voice detected
-            note_name = Notes.frequency_to_note_name(frequency)
+            note_name = Notes.convert_frequency_to_note(frequency)
             print(f"\rTarget: {target_note:<5} | Your note: {note_name:<10}", end="", flush=True)
         else:  # no voice detected
             print(f"\rTarget: {target_note:<5} | Your note: ---          ", end="", flush=True)
 
     def run(self):
         # Generate melody phrases
-        phrases = self.melody_player.generate_phrases(ChordProgression.FLY_ME_TO_THE_MOON)
+        phrases = self.melody_composer.generate_phrases(ChordProgression.FLY_ME_TO_THE_MOON)
         
         # Setup audio processing
         self.mic_input._callback = self._process_audio

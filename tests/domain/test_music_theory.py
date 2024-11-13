@@ -62,7 +62,7 @@ class TestNotes:
         ]
 
         for frequency, expected_note in test_cases:
-            assert Notes.frequency_to_note_name(frequency) == expected_note
+            assert Notes.convert_frequency_to_note(frequency) == expected_note
 
 
 class TestScale:

@@ -9,7 +9,7 @@ import random
 from improvisation_lab.domain.music_theory import ChordTone, Notes, Scale
 
 
-class MelodyGenerator:
+class PhraseGenerator:
     """Class for generating improvised melody phrases.
 
     This class generates melody phrases based on given scales and chord progressions,

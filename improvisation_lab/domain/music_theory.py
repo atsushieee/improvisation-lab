@@ -64,7 +64,7 @@ class Notes(str, Enum):
         return all_notes[start_idx:] + all_notes[:start_idx]
 
     @classmethod
-    def frequency_to_note_name(cls, frequency: float) -> str:
+    def convert_frequency_to_note(cls, frequency: float) -> str:
         """Convert a frequency in Hz to the nearest note name on a piano keyboard.
 
         Args:

@@ -1,15 +1,15 @@
 import pytest
 
-from improvisation_lab.domain.melody_jam import MelodyGenerator
+from improvisation_lab.domain.melody_jam import PhraseGenerator
 from improvisation_lab.domain.music_theory import Scale
 
 
-class TestMelodyGenerator:
+class TestPhraseGenerator:
 
     @pytest.fixture
     def init_module(self) -> None:
         """Initialization."""
-        self.melody_generator = MelodyGenerator()
+        self.phrase_generator = PhraseGenerator()
 
     @pytest.mark.usefixtures("init_module")
     def test_is_chord_tone(self):
@@ -24,7 +24,7 @@ class TestMelodyGenerator:
         ]
 
         for note, chord_tones, expected in test_cases:
-            assert self.melody_generator.is_chord_tone(note, chord_tones) == expected
+            assert self.phrase_generator.is_chord_tone(note, chord_tones) == expected
 
     @pytest.mark.usefixtures("init_module")
     def test_get_adjacent_notes(self):
@@ -36,7 +36,7 @@ class TestMelodyGenerator:
         ]
 
         for note, scale_notes, expected in test_cases:
-            result = self.melody_generator.get_adjacent_notes(note, scale_notes)
+            result = self.phrase_generator.get_adjacent_notes(note, scale_notes)
             assert sorted(result) == sorted(expected)
 
     @pytest.mark.usefixtures("init_module")
@@ -54,7 +54,7 @@ class TestMelodyGenerator:
         ]
 
         for note, scale_notes, direction, expected in test_cases:
-            result = self.melody_generator._find_closest_note_in_direction(
+            result = self.phrase_generator._find_closest_note_in_direction(
                 note, scale_notes, direction
             )
             assert result == expected
@@ -70,7 +70,7 @@ class TestMelodyGenerator:
 
         # Run multiple times to ensure random selection works correctly
         for _ in range(10):
-            result = self.melody_generator.get_next_note(
+            result = self.phrase_generator.get_next_note(
                 current_note, scale_notes, chord_tones
             )
             # Should be able to move to any scale note except current note
@@ -83,7 +83,7 @@ class TestMelodyGenerator:
 
         # Run multiple times to ensure random selection works correctly
         for _ in range(10):
-            result = self.melody_generator.get_next_note(
+            result = self.phrase_generator.get_next_note(
                 current_note, scale_notes, chord_tones
             )
             # Should only move to adjacent notes
@@ -95,7 +95,7 @@ class TestMelodyGenerator:
         expected_adjacent = ["A#", "C"]
 
         for _ in range(10):
-            result = self.melody_generator.get_next_note(
+            result = self.phrase_generator.get_next_note(
                 current_note, scale_notes, chord_tones
             )
             assert result in expected_adjacent
@@ -111,13 +111,13 @@ class TestMelodyGenerator:
 
         # Case 1: prev_note is None
         for _ in range(10):
-            result = self.melody_generator.select_first_note(scale_notes, chord_tones)
+            result = self.phrase_generator.select_first_note(scale_notes, chord_tones)
             assert result in scale_notes
 
         # Case 2: prev_note exists and was a chord tone
         prev_note = "E"
         for _ in range(10):
-            result = self.melody_generator.select_first_note(
+            result = self.phrase_generator.select_first_note(
                 scale_notes,
                 chord_tones,
                 prev_note=prev_note,
@@ -129,7 +129,7 @@ class TestMelodyGenerator:
         # Case 3: prev_note exists, wasn't a chord tone, but is in current chord tones
         prev_note = "C"
         for _ in range(10):
-            result = self.melody_generator.select_first_note(
+            result = self.phrase_generator.select_first_note(
                 scale_notes,
                 chord_tones,
                 prev_note=prev_note,
@@ -142,7 +142,7 @@ class TestMelodyGenerator:
         prev_note = "C#"
         expected_adjacent = ["C", "D"]  # Adjacent notes in scale
         for _ in range(10):
-            result = self.melody_generator.select_first_note(
+            result = self.phrase_generator.select_first_note(
                 scale_notes,
                 chord_tones,
                 prev_note=prev_note,
@@ -154,7 +154,7 @@ class TestMelodyGenerator:
     def test_generate_phrase(self):
         """Test that generate_phrase generates valid melody phrases."""
         # Case 1: First phrase (no previous note)
-        phrase = self.melody_generator.generate_phrase(
+        phrase = self.phrase_generator.generate_phrase(
             scale_root="C",
             scale_type="major",
             chord_root="C",
@@ -165,7 +165,7 @@ class TestMelodyGenerator:
         assert all(note in Scale.get_scale_notes("C", "major") for note in phrase)
 
         # Case 2: Phrase after a chord tone
-        phrase = self.melody_generator.generate_phrase(
+        phrase = self.phrase_generator.generate_phrase(
             scale_root="A",
             scale_type="natural_minor",
             chord_root="A",
@@ -181,7 +181,7 @@ class TestMelodyGenerator:
 
         # Case 3: Phrase after a non-chord tone
         for _ in range(10):
-            phrase = self.melody_generator.generate_phrase(
+            phrase = self.phrase_generator.generate_phrase(
                 scale_root="D",
                 scale_type="harmonic_minor",
                 chord_root="A",
@@ -197,7 +197,7 @@ class TestMelodyGenerator:
 
         # Case 4: Different lengths
         for length in [4, 8, 12]:
-            phrase = self.melody_generator.generate_phrase(
+            phrase = self.phrase_generator.generate_phrase(
                 scale_root="G",
                 scale_type="major",
                 chord_root="G",
