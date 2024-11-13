@@ -1,59 +1,68 @@
 """Main module to demonstrate melody generation with chord progression."""
 
-from improvisation_lab.domain.music_theory import ChordTone
-from improvisation_lab.domain.melody_jam import MelodyGenerator
+from time import sleep
 
+from improvisation_lab.config import AudioConfig, ChordProgression
+from improvisation_lab.domain.music_theory import Notes
+from improvisation_lab.domain.audio_input import MicInput, PitchDetector
+from improvisation_lab.domain.melody_jam import MelodyGenerator, MelodyPlayer
+
+class MelodyApp:
+    def __init__(self):
+        self.melody_generator = MelodyGenerator()
+        self.melody_player = MelodyPlayer(self.melody_generator)
+        self.pitch_detector = PitchDetector(sample_rate=AudioConfig.SAMPLE_RATE)
+        self.mic_input = MicInput(
+            sample_rate=AudioConfig.SAMPLE_RATE,
+            buffer_duration=AudioConfig.BUFFER_DURATION
+        )
+        self.current_note = None
+
+    def _process_audio(self, audio_data):
+        frequency = self.pitch_detector.detect_pitch(audio_data)
+        target_note = "---" if self.current_note is None else self.current_note
+        if frequency > 0:  # voice detected
+            note_name = Notes.frequency_to_note_name(frequency)
+            print(f"\rTarget: {target_note:<5} | Your note: {note_name:<10}", end="", flush=True)
+        else:  # no voice detected
+            print(f"\rTarget: {target_note:<5} | Your note: ---          ", end="", flush=True)
+
+    def run(self):
+        # Generate melody phrases
+        phrases = self.melody_player.generate_phrases(ChordProgression.FLY_ME_TO_THE_MOON)
+        
+        # Setup audio processing
+        self.mic_input._callback = self._process_audio
+
+        print("Generating melody for Fly Me to the Moon:")
+        print("-" * 50)
+
+        try:
+            self.mic_input.start_recording()
+            
+            for i, phrase_data in enumerate(phrases, 1):
+                print(f"\nPhrase {i} ({phrase_data.chord_name}, {phrase_data.scale_info}):")
+                print(" -> ".join(phrase_data.notes))
+
+                if i < len(phrases):
+                    next_phrase = phrases[i]
+                    print(f"Next: {next_phrase.chord_name} ({next_phrase.notes[0]})")
+                
+                print("\nSing this phrase! (3 seconds per note)")
+                for note in phrase_data.notes:
+                    self.current_note = note
+                    sleep(AudioConfig.NOTE_DURATION)
+                self.current_note = None
+                print("\n" + "-" * 50)
+
+        except KeyboardInterrupt:
+            print("\nStopping...")
+        finally:
+            self.mic_input.stop_recording()
 
 def main():
-    """Generate melody phrases over Fly Me to the Moon chord progression."""
-    melody_generator = MelodyGenerator()
-    
-    # Generate phrases based on the first 8 bars of "Fly Me to the Moon"
-    progression = [
-        # (scale_root, scale_type, chord_root, chord_type, length)
-        ('A', 'natural_minor', 'A', 'min7', 8),
-        ('A', 'natural_minor', 'D', 'min7', 8),
-        ('C', 'major', 'G', 'dom7', 8),
-        ('C', 'major', 'C', 'maj7', 4),
-        ('F', 'major', 'C', 'dom7', 4),
-        ('C', 'major', 'F', 'maj7', 8),
-        ('A', 'natural_minor', 'B', 'min7(b5)', 8),
-        ('A', 'harmonic_minor', 'E', 'dom7', 8),
-        ('A', 'natural_minor', 'A', 'min7', 4),
-        ('D', 'harmonic_minor', 'A', 'dom7', 4),
-    ]
-
-    # Keep track of the last note from previous phrase for natural connections
-    prev_note = None
-    prev_note_was_chord_tone = False
-    
-    print("Generating melody for Fly Me to the Moon:")
-    print("-" * 50)
-
-    for i, (scale_root, scale_type, chord_root, chord_type, length) in enumerate(progression, 1):
-        phrase = melody_generator.generate_phrase(
-            scale_root=scale_root,
-            scale_type=scale_type,
-            chord_root=chord_root,
-            chord_type=chord_type,
-            prev_note=prev_note,
-            prev_note_was_chord_tone=prev_note_was_chord_tone,
-            length=length
-        )
-        
-        # Update information for the next phrase
-        prev_note = phrase[-1]
-        prev_note_was_chord_tone = melody_generator.is_chord_tone(
-            prev_note,
-            ChordTone.get_chord_tones(chord_root, chord_type)
-        )
-        
-        # Display the generated phrase
-        chord_name = f"{chord_root}{chord_type}"
-        print(f"Phrase {i} ({chord_name}, {scale_root} {scale_type}):")
-        print(" -> ".join(phrase))
-        print()
-
+    app = MelodyApp()
+    app.run()
 
 if __name__ == "__main__":
     main()
