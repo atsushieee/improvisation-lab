@@ -51,7 +51,7 @@ class PitchDetector:
         """
         audio_length = len(audio_frame)
         f0_target_length = (audio_length // self.hop_length) + 1
-        
+
         # Convert to torch tensor and reshape to match expected dimensions
         # Add batch and channel dimensions
         audio_tensor = torch.from_numpy(audio_frame).float()

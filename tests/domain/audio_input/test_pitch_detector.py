@@ -36,7 +36,7 @@ class TestPitchDetector:
             f0_max=800,
             threshold=0.01,
         )
-        
+
         duration = 0.2
         t = np.linspace(0, duration, int(detector.sample_rate * duration))
         frequency = 440.0
