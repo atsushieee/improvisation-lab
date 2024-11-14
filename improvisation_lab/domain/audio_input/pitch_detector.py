@@ -4,41 +4,26 @@ import numpy as np
 import torch
 from torchfcpe import spawn_bundled_infer_model
 
+from improvisation_lab.config import PitchDetectorConfig
+
 
 class PitchDetector:
     """Class for real-time pitch detection using FCPE."""
 
-    def __init__(
-        self,
-        sample_rate: int = 44100,
-        hop_length: int = 512,
-        decoder_mode: str = "local_argmax",
-        threshold: float = 0.006,
-        f0_min: int = 80,
-        f0_max: int = 880,
-        interp_uv: bool = False,
-        device: str = "cpu",
-    ):
+    def __init__(self, config: PitchDetectorConfig):
         """Initialize pitch detector.
 
         Args:
-            sample_rate: Audio sample rate (default: 44100)
-            hop_length: Number of samples between frames (default: 512)
-            decoder_mode: Mode for decoder (default: "local_argmax")
-            threshold: Threshold for V/UV decision (default: 0.006)
-            f0_min: Minimum pitch in Hz (default: 80)
-            f0_max: Maximum pitch in Hz (default: 880)
-            interp_uv: Interpolate unvoiced frames (default: False)
-            device: Device to run model on (default: "cpu")
+            config: Configuration settings for pitch detection.
         """
-        self.sample_rate = sample_rate
-        self.hop_length = hop_length
-        self.decoder_mode = decoder_mode
-        self.threshold = threshold
-        self.f0_min = f0_min
-        self.f0_max = f0_max
-        self.interp_uv = interp_uv
-        self.model = spawn_bundled_infer_model(device=device)
+        self.sample_rate = config.sample_rate
+        self.hop_length = config.hop_length
+        self.decoder_mode = config.decoder_mode
+        self.threshold = config.threshold
+        self.f0_min = config.f0_min
+        self.f0_max = config.f0_max
+        self.interp_uv = config.interp_uv
+        self.model = spawn_bundled_infer_model(device=config.device)
 
     def detect_pitch(self, audio_frame: np.ndarray) -> float:
         """Detect pitch from audio frame.

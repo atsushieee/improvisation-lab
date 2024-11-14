@@ -1,9 +1,23 @@
 """Configuration module for audio settings and chord progressions."""
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 
 import yaml
+
+
+@dataclass
+class PitchDetectorConfig:
+    """Configuration settings for pitch detection."""
+
+    sample_rate: int = 44100
+    hop_length: int = 512
+    decoder_mode: str = "local_argmax"
+    threshold: float = 0.006
+    f0_min: int = 80
+    f0_max: int = 880
+    interp_uv: bool = False
+    device: str = "cpu"
 
 
 @dataclass
@@ -12,23 +26,26 @@ class AudioConfig:
 
     sample_rate: int = 44100
     buffer_duration: float = 0.2
-    note_duration: int = 3  # seconds per note
+    note_duration: int = 3
+    pitch_detector: PitchDetectorConfig = field(default_factory=PitchDetectorConfig)
 
     @classmethod
     def from_yaml(cls, yaml_data: dict) -> "AudioConfig":
-        """Create AudioConfig instance from YAML data.
-
-        Args:
-            yaml_data: Dictionary containing audio configuration data.
-
-        Returns:
-            AudioConfig instance with values from YAML or defaults.
-        """
-        return cls(
+        """Create AudioConfig instance from YAML data."""
+        config = cls(
             sample_rate=yaml_data.get("sample_rate", cls.sample_rate),
             buffer_duration=yaml_data.get("buffer_duration", cls.buffer_duration),
             note_duration=yaml_data.get("note_duration", cls.note_duration),
         )
+
+        if "pitch_detector" in yaml_data:
+            pitch_detector_data = yaml_data["pitch_detector"]
+            # The sample rate must be set explicitly
+            # Use the sample rate specified in the audio config
+            pitch_detector_data["sample_rate"] = config.sample_rate
+            config.pitch_detector = PitchDetectorConfig(**pitch_detector_data)
+
+        return config
 
 
 @dataclass

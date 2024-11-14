@@ -2,6 +2,12 @@ audio:
   sample_rate: 44100
   buffer_duration: 0.2
   note_duration: 3
+  pitch_detector:
+    hop_length: 512
+    threshold: 0.006
+    f0_min: 80
+    f0_max: 880
+    device: "cpu"
 
 selected_song: "fly_me_to_the_moon"
 

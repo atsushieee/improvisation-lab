@@ -27,13 +27,13 @@ class MelodyApp:
         """
         self.phrase_generator = PhraseGenerator()
         self.melody_composer = MelodyComposer(self.phrase_generator)
-        self.pitch_detector = PitchDetector(sample_rate=config.audio.sample_rate)
+        self.config = config
+        self.pitch_detector = PitchDetector(self.config.audio.pitch_detector)
         self.mic_input = MicInput(
-            sample_rate=config.audio.sample_rate,
-            buffer_duration=config.audio.buffer_duration,
+            sample_rate=self.config.audio.sample_rate,
+            buffer_duration=self.config.audio.buffer_duration,
         )
         self.current_note = None
-        self.config = config
 
     def _process_audio(self, audio_data: np.ndarray):
         """Process audio data to detect pitch and provide feedback.

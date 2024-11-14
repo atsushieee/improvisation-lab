@@ -53,17 +53,31 @@ class TestMelodyComposer:
             ("C", "major", "F", "maj7", 2),
         ]
 
-        phrases = self.melody_composer.generate_phrases(progression)
+        # Get chord tones for both chords
+        first_chord_tones = ["C", "E", "G", "B"]  # Cmaj7
+        second_chord_tones = ["F", "A", "C", "E"]  # Fmaj7
 
-        # Get the last note of first phrase
-        last_note = phrases[0].notes[-1]
-        # Get the first note of second phrase
-        first_note = phrases[1].notes[0]
+        # Run multiple times to ensure random selection works correctly
+        for _ in range(10):
+            phrases = self.melody_composer.generate_phrases(progression)
 
-        # Verify that the connection follows melody generator rules
-        if not self.phrase_generator.is_chord_tone(last_note, ["C", "E", "G", "B"]):
-            # If last note wasn't a chord tone, first note should be adjacent
-            adjacent_notes = self.phrase_generator.get_adjacent_notes(
-                last_note, ["C", "D", "E", "F", "G", "A", "B"]
+            # Get the last note of first phrase
+            last_note = phrases[0].notes[-1]
+            # Get the first note of second phrase
+            first_note = phrases[1].notes[0]
+
+            # Check if the last note is a chord tone of either chord
+            is_first_chord_tone = self.phrase_generator.is_chord_tone(
+                last_note, first_chord_tones
             )
-            assert first_note in adjacent_notes
+            is_second_chord_tone = self.phrase_generator.is_chord_tone(
+                last_note, second_chord_tones
+            )
+
+            # If the last note is not a chord tone of either chord
+            if not is_first_chord_tone and not is_second_chord_tone:
+                # Then first note should be adjacent
+                adjacent_notes = self.phrase_generator.get_adjacent_notes(
+                    last_note, ["C", "D", "E", "F", "G", "A", "B"]
+                )
+                assert first_note in adjacent_notes

@@ -46,6 +46,12 @@ The following options are available:
 - `sample_rate`: Audio sampling rate (default: 44100 Hz)
 - `buffer_duration`: Duration of audio processing buffer (default: 0.2 seconds)
 - `note_duration`: How long to display each note during practice (default: 3 seconds)
+- `pitch_detector`: Configuration for the pitch detection algorithm
+  - `hop_length`: Hop length for the pitch detection algorithm (default: 512)
+  - `threshold`: Threshold for the pitch detection algorithm (default: 0.006)
+  - `f0_min`: Minimum frequency for the pitch detection algorithm (default: 80 Hz)
+  - `f0_max`: Maximum frequency for the pitch detection algorithm (default: 880 Hz)
+  - `device`: Device to use for the pitch detection algorithm (default: "cpu")
 
 #### Song Selection
 - `selected_song`: Name of the song to practice

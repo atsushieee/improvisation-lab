@@ -2,17 +2,21 @@
 
 import time
 
-from improvisation_lab.config import AudioConfig
+from improvisation_lab.config import Config
 from improvisation_lab.domain.audio_input import MicInput, PitchDetector
 from improvisation_lab.domain.music_theory import Notes
 
 
-def main():
-    """Run pitch detection demo."""
-    pitch_detector = PitchDetector(sample_rate=AudioConfig.SAMPLE_RATE)
+def main(config: Config):
+    """Run pitch detection demo.
+    
+    Args:
+        config: Configuration object.
+    """
+    pitch_detector = PitchDetector(config.audio.pitch_detector)
     mic_input = MicInput(
-        sample_rate=AudioConfig.SAMPLE_RATE,
-        buffer_duration=AudioConfig.BUFFER_DURATION
+        sample_rate=config.audio.sample_rate,
+        buffer_duration=config.audio.buffer_duration,
     )
 
     def process_audio(audio_data):
@@ -39,4 +43,5 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    config = Config()
+    main(config)

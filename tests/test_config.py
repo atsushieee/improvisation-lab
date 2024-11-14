@@ -60,3 +60,27 @@ class TestConfig:
         assert audio_config.sample_rate == 48000
         assert audio_config.buffer_duration == 0.3
         assert audio_config.note_duration == 4
+
+    def test_pitch_detector_config_from_yaml(self):
+        """Test creating PitchDetector config from YAML data."""
+        yaml_data = {
+            "sample_rate": 44100,
+            "buffer_duration": 0.2,
+            "note_duration": 3,
+            "pitch_detector": {
+                "hop_length": 256,
+                "threshold": 0.01,
+                "f0_min": 100,
+                "f0_max": 800,
+                "device": "cpu",
+            },
+        }
+        audio_config = AudioConfig.from_yaml(yaml_data)
+
+        assert audio_config.pitch_detector.hop_length == 256
+        assert audio_config.pitch_detector.threshold == 0.01
+        assert audio_config.pitch_detector.f0_min == 100
+        assert audio_config.pitch_detector.f0_max == 800
+        assert audio_config.pitch_detector.device == "cpu"
+        # 未指定のパラメータはデフォルト値を保持
+        assert audio_config.pitch_detector.decoder_mode == "local_argmax"
