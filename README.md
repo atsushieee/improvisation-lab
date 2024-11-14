@@ -2,8 +2,9 @@
 
 A Python package for generating musical improvisation melodies based on music theory principles. The package specializes in creating natural-sounding melodic phrases that follow chord progressions while respecting musical rules, with real-time pitch detection for practice feedback.
 
-TODO
-![Improvisation Lab Demo](./docs/assets/demo.gif)
+Improvisation Lab Demo
+
+https://github.com/user-attachments/assets/cca490ec-0c81-4128-9dc6-337ea472f014
 
 ## Features
 
@@ -77,11 +78,8 @@ The melody generation follows these principles:
 
 ### Real-time Feedback
 Pitch Detection Demo:
-<div align="center">
-  <video width="600" height="150" controls>
-    <source src="https://github.com/user-attachments/assets/5512acca-320d-461d-ab03-d595c01ada8c" type="video/mp4">
-  </video>
-</div>
+
+https://github.com/user-attachments/assets/fd9e6e3f-85f1-42be-a6c8-b757da478854
 
 The application provides real-time feedback by:
 1. Capturing audio from your microphone
