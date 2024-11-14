@@ -1,0 +1,19 @@
+audio:
+  sample_rate: 44100
+  buffer_duration: 0.2
+  note_duration: 3
+
+selected_song: "fly_me_to_the_moon"
+
+chord_progressions:
+  fly_me_to_the_moon:
+    - ["A", "natural_minor", "A", "min7", 8]
+    - ["A", "natural_minor", "D", "min7", 8]
+    - ["C", "major", "G", "dom7", 8]
+    - ["C", "major", "C", "maj7", 4]
+    - ["F", "major", "C", "dom7", 4]
+    - ["C", "major", "F", "maj7", 8]
+    - ["A", "natural_minor", "B", "min7(b5)", 8]
+    - ["A", "harmonic_minor", "E", "dom7", 8]
+    - ["A", "natural_minor", "A", "min7", 4]
+    - ["D", "harmonic_minor", "A", "dom7", 4]

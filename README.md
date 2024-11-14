@@ -37,6 +37,27 @@ make run
 3. Sing along with the notes shown on screen
 4. Get real-time feedback on your pitch accuracy
 
+### Configuration
+
+The application can be customized through a `config.yml` file in the root directory. 
+The following options are available:
+
+#### Audio Settings
+- `sample_rate`: Audio sampling rate (default: 44100 Hz)
+- `buffer_duration`: Duration of audio processing buffer (default: 0.2 seconds)
+- `note_duration`: How long to display each note during practice (default: 3 seconds)
+
+#### Song Selection
+- `selected_song`: Name of the song to practice
+- `chord_progressions`: Dictionary of available songs and their chord progressions
+  - Each progression is defined as: `[scale_root, scale_type, chord_root, chord_type, duration]`
+  - Supported scale types: major, natural_minor, harmonic_minor
+  - Supported chord types: maj7, min7, dom7, min7(b5)
+
+### Custom Songs
+
+You can add your own songs by adding new entries to the `chord_progressions` section:
+
 
 ## How It Works
 

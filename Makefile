@@ -8,14 +8,14 @@ run:
 
 .PHONY: lint
 lint:
-	poetry run pflake8 improvisation_lab tests
-	poetry run mypy improvisation_lab tests
-	poetry run pydocstyle improvisation_lab tests
+	poetry run pflake8 improvisation_lab tests main.py
+	poetry run mypy improvisation_lab tests main.py
+	poetry run pydocstyle improvisation_lab tests main.py
 
 .PHONY: format
 format:
-	poetry run black improvisation_lab tests
-	poetry run isort improvisation_lab tests
+	poetry run black improvisation_lab tests main.py
+	poetry run isort improvisation_lab tests main.py
 
 .PHONY: test
 test:
