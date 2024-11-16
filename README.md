@@ -28,15 +28,23 @@ make install
 ```
 
 ## Quick Start
-1. Run the script to start the melody generation and playback:
+1. Create your configuration file:
+
+```bash
+cp config.yml.example config.yml
+```
+
+2.  (Optional) Edit `config.yml` to customize settings like audio parameters and song selection
+
+3. Run the script to start the melody generation and playback:
 
 ```bash
 make run
 ```
 
-2. Follow the displayed melody phrases
-3. Sing along with the notes shown on screen
-4. Get real-time feedback on your pitch accuracy
+4. Follow the displayed melody phrases
+5. Sing along with the notes shown on screen
+6. Get real-time feedback on your pitch accuracy
 
 ### Configuration
 
