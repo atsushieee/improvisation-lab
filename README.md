@@ -66,7 +66,7 @@ The following options are available:
 - `selected_song`: Name of the song to practice
 - `chord_progressions`: Dictionary of available songs and their chord progressions
   - Each progression is defined as: `[scale_root, scale_type, chord_root, chord_type, duration]`
-  - Supported scale types: major, natural_minor, harmonic_minor
+  - Supported scale types: major, natural_minor, harmonic_minor, diminished
   - Supported chord types: maj7, min7, dom7, min7(b5)
 
 ### Custom Songs
