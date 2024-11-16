@@ -44,7 +44,7 @@ class TestConfig:
 
         assert config.audio.sample_rate == 44100
         assert config.audio.buffer_duration == 0.2
-        assert config.audio.note_duration == 3
+        assert config.audio.note_duration == 1.0
         assert config.selected_song == "fly_me_to_the_moon"
         assert "fly_me_to_the_moon" in config.chord_progressions
 

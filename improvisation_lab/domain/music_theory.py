@@ -87,6 +87,19 @@ class Notes(str, Enum):
         note = cls.get_chromatic_scale(cls.C)[note_idx]
         return f"{note}{octave}"
 
+    @classmethod
+    def convert_frequency_to_base_note(cls, frequency: float) -> str:
+        """Convert frequency to base note name without octave number.
+
+        Args:
+            frequency: Frequency in Hz
+
+        Returns:
+            Base note name (e.g., 'C', 'C#', 'D')
+        """
+        note_with_octave = cls.convert_frequency_to_note(frequency)
+        return note_with_octave[:-1]  # Remove the octave number
+
 
 class Scale:
     """Musical scale representation and operations.

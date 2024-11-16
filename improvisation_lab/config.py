@@ -26,7 +26,7 @@ class AudioConfig:
 
     sample_rate: int = 44100
     buffer_duration: float = 0.2
-    note_duration: int = 3
+    note_duration: float = 1.0
     pitch_detector: PitchDetectorConfig = field(default_factory=PitchDetectorConfig)
 
     @classmethod

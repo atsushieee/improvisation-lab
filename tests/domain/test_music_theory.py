@@ -64,6 +64,19 @@ class TestNotes:
         for frequency, expected_note in test_cases:
             assert Notes.convert_frequency_to_note(frequency) == expected_note
 
+    def test_convert_frequency_to_base_note(self):
+        """Test that convert_frequency_to_base_note returns correct base note names."""
+        test_cases = [
+            (440.0, "A"),  # A4 -> A
+            (261.63, "C"),  # C4 -> C
+            (329.63, "E"),  # E4 -> E
+            (493.88, "B"),  # B4 -> B
+            (880.0, "A"),  # A5 -> A
+        ]
+
+        for frequency, expected_note in test_cases:
+            assert Notes.convert_frequency_to_base_note(frequency) == expected_note
+
 
 class TestScale:
     def test_get_scale_notes_returns_correct_notes(self):
