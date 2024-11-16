@@ -4,7 +4,8 @@ A Python package for generating musical improvisation melodies based on music th
 
 Improvisation Lab Demo
 
-https://github.com/user-attachments/assets/cca490ec-0c81-4128-9dc6-337ea472f014
+https://github.com/user-attachments/assets/a4207f7e-166c-4f50-9c19-5bf5269fd04e
+
 
 ## Features
 
