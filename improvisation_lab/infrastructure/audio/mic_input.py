@@ -9,8 +9,10 @@ from typing import Callable
 import numpy as np
 import pyaudio
 
+from improvisation_lab.infrastructure.audio.audio_input import AudioInput
 
-class MicInput:
+
+class MicInput(AudioInput):
     """Handle real-time audio input from microphone.
 
     This class provides functionality to:

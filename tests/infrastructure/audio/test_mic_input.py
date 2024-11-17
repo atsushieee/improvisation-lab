@@ -4,7 +4,7 @@ import numpy as np
 import pyaudio
 import pytest
 
-from improvisation_lab.domain.audio_input import MicInput
+from improvisation_lab.infrastructure.audio import MicInput
 
 
 class TestMicInput:

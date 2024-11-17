@@ -5,10 +5,11 @@ import time
 import numpy as np
 
 from improvisation_lab.config import Config
-from improvisation_lab.domain.audio_input import MicInput, PitchDetector
-from improvisation_lab.domain.melody_jam import (MelodyComposer, PhraseData,
-                                                 PhraseGenerator)
+from improvisation_lab.domain.analysis import PitchDetector
+from improvisation_lab.domain.composition import (MelodyComposer, PhraseData,
+                                                  PhraseGenerator)
 from improvisation_lab.domain.music_theory import Notes
+from improvisation_lab.infrastructure.audio import MicInput
 
 
 class MelodyApp:

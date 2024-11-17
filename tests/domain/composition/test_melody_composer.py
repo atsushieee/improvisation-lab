@@ -1,8 +1,9 @@
-"""Tests for melody player module."""
+"""Tests for melody composer module."""
 
 import pytest
 
-from improvisation_lab.domain.melody_jam import MelodyComposer, PhraseGenerator
+from improvisation_lab.domain.composition import (MelodyComposer,
+                                                  PhraseGenerator)
 
 
 class TestMelodyComposer:

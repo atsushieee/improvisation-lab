@@ -1,6 +1,6 @@
 import pytest
 
-from improvisation_lab.domain.melody_jam import PhraseGenerator
+from improvisation_lab.domain.composition import PhraseGenerator
 from improvisation_lab.domain.music_theory import Scale
 
 

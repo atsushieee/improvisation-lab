@@ -3,7 +3,7 @@
 from dataclasses import dataclass
 from typing import List, Optional
 
-from improvisation_lab.domain.melody_jam.phrase_generator import \
+from improvisation_lab.domain.composition.phrase_generator import \
     PhraseGenerator
 from improvisation_lab.domain.music_theory import ChordTone
 

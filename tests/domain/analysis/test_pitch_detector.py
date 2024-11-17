@@ -2,7 +2,7 @@ import numpy as np
 import pytest
 
 from improvisation_lab.config import PitchDetectorConfig
-from improvisation_lab.domain.audio_input.pitch_detector import PitchDetector
+from improvisation_lab.domain.analysis.pitch_detector import PitchDetector
 
 
 class TestPitchDetector:
