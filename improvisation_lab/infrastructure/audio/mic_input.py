@@ -38,28 +38,9 @@ class MicInput(AudioInput):
             callback: Optional callback function to process audio data
             buffer_duration: Duration of audio buffer in seconds before processing
         """
-        self.sample_rate = sample_rate
-        self.is_recording = False
+        super().__init__(sample_rate, callback, buffer_duration)
         self.audio = None
         self._stream = None
-        self._callback = callback
-        self._buffer = np.array([], dtype=np.float32)
-        self._buffer_size = int(sample_rate * buffer_duration)
-
-    def _append_to_buffer(self, audio_data: np.ndarray) -> None:
-        """Append new audio data to the buffer.
-
-        Args:
-            audio_data: Audio data to append
-        """
-        self._buffer = np.concatenate([self._buffer, audio_data])
-
-    def _process_buffer(self) -> None:
-        """Process buffer data if it has reached the desired size."""
-        if len(self._buffer) >= self._buffer_size:
-            if self._callback is not None:
-                self._callback(self._buffer[: self._buffer_size])
-            self._buffer = self._buffer[self._buffer_size :]
 
     def _audio_callback(
         self, in_data: bytes, frame_count: int, time_info: dict, status: int

@@ -1,1 +1,1 @@
-"""Test package for audio input module."""
+"""Test package for music analysis module."""

@@ -8,9 +8,9 @@ run:
 
 .PHONY: lint
 lint:
-	poetry run pflake8 improvisation_lab tests main.py
-	poetry run mypy improvisation_lab tests main.py
-	poetry run pydocstyle improvisation_lab tests main.py
+	poetry run pflake8 improvisation_lab scripts tests main.py
+	poetry run mypy improvisation_lab scripts tests main.py
+	poetry run pydocstyle improvisation_lab scripts tests main.py
 
 .PHONY: format
 format:
@@ -23,4 +23,4 @@ test:
 
 .PHONY: pitch-demo
 pitch-demo:
-	poetry run python scripts/pitch_detection_demo.py
+	poetry run python scripts/pitch_detection_demo.py  --input gradio
