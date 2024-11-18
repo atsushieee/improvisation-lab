@@ -6,7 +6,7 @@ from typing import Callable
 import numpy as np
 
 
-class AudioInput(ABC):
+class AudioProcessor(ABC):
     """Abstract base class for audio input handling."""
 
     def __init__(

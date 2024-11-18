@@ -4,13 +4,13 @@ import numpy as np
 import pyaudio
 import pytest
 
-from improvisation_lab.infrastructure.audio import MicInput
+from improvisation_lab.infrastructure.audio import DirectAudioProcessor
 
 
 class TestMicInput:
     @pytest.fixture
     def init_module(self):
-        self.mic_input = MicInput(sample_rate=44100)
+        self.mic_input = DirectAudioProcessor(sample_rate=44100)
 
     @pytest.mark.usefixtures("init_module")
     @patch("pyaudio.PyAudio")

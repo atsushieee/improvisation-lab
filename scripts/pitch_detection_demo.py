@@ -8,7 +8,8 @@ import gradio as gr
 from improvisation_lab.config import Config
 from improvisation_lab.domain.analysis import PitchDetector
 from improvisation_lab.domain.music_theory import Notes
-from improvisation_lab.infrastructure.audio import GradioAudioInput, MicInput
+from improvisation_lab.infrastructure.audio import (DirectAudioProcessor,
+                                                    WebAudioProcessor)
 
 
 def create_process_audio(pitch_detector: PitchDetector):
@@ -20,27 +21,30 @@ def create_process_audio(pitch_detector: PitchDetector):
     Returns:
         Callback function for processing audio data
     """
+
     def process_audio(audio_data):
         frequency = pitch_detector.detect_pitch(audio_data)
         if frequency > 0:  # voice detected
             note_name = Notes.convert_frequency_to_note(frequency)
             print(
-                f"\rFrequency: {frequency:6.1f} Hz | Note: {note_name:<5}", end="",
-                flush=True
+                f"\rFrequency: {frequency:6.1f} Hz | Note: {note_name:<5}",
+                end="",
+                flush=True,
             )
         else:  # no voice detected
             print("\rNo voice detected                        ", end="", flush=True)
+
     return process_audio
 
 
-def run_mic_demo(config: Config):
+def run_direct_audio_demo(config: Config):
     """Run pitch detection demo using microphone input.
 
     Args:
         config: Configuration object
     """
     pitch_detector = PitchDetector(config.audio.pitch_detector)
-    mic_input = MicInput(
+    mic_input = DirectAudioProcessor(
         sample_rate=config.audio.sample_rate,
         buffer_duration=config.audio.buffer_duration,
     )
@@ -60,14 +64,14 @@ def run_mic_demo(config: Config):
         mic_input.stop_recording()
 
 
-def run_gradio_demo(config: Config):
+def run_web_audio_demo(config: Config):
     """Run pitch detection demo using Gradio interface.
 
     Args:
         config: Configuration object
     """
     pitch_detector = PitchDetector(config.audio.pitch_detector)
-    audio_input = GradioAudioInput(
+    audio_input = WebAudioProcessor(
         sample_rate=config.audio.sample_rate,
         buffer_duration=config.audio.buffer_duration,
     )
@@ -119,18 +123,18 @@ def main():
     parser = argparse.ArgumentParser(description="Run pitch detection demo")
     parser.add_argument(
         "--input",
-        choices=["mic", "gradio"],
-        default="mic",
-        help="Input method (mic or gradio)",
+        choices=["direct", "web"],
+        default="web",
+        help="Input method (direct: microphone or web: browser)",
     )
     args = parser.parse_args()
 
     config = Config()
 
-    if args.input == "mic":
-        run_mic_demo(config)
+    if args.input == "web":
+        run_web_audio_demo(config)
     else:
-        run_gradio_demo(config)
+        run_direct_audio_demo(config)
 
 
 if __name__ == "__main__":

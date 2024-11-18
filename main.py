@@ -9,7 +9,7 @@ from improvisation_lab.domain.analysis import PitchDetector
 from improvisation_lab.domain.composition import (MelodyComposer, PhraseData,
                                                   PhraseGenerator)
 from improvisation_lab.domain.music_theory import Notes
-from improvisation_lab.infrastructure.audio import MicInput
+from improvisation_lab.infrastructure.audio import DirectAudioProcessor
 
 
 class MelodyApp:
@@ -31,7 +31,7 @@ class MelodyApp:
         self.melody_composer = MelodyComposer(self.phrase_generator)
         self.config = config
         self.pitch_detector = PitchDetector(self.config.audio.pitch_detector)
-        self.mic_input = MicInput(
+        self.mic_input = DirectAudioProcessor(
             sample_rate=self.config.audio.sample_rate,
             buffer_duration=self.config.audio.buffer_duration,
         )

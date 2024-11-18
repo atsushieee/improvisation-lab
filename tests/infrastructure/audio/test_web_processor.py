@@ -5,7 +5,7 @@ from unittest.mock import Mock
 import numpy as np
 import pytest
 
-from improvisation_lab.infrastructure.audio import GradioAudioInput
+from improvisation_lab.infrastructure.audio import WebAudioProcessor
 
 
 class TestGradioAudioInput:
@@ -14,7 +14,7 @@ class TestGradioAudioInput:
         """Initialize test module."""
         self.sample_rate = 44100
         self.buffer_duration = 0.2
-        self.audio_input = GradioAudioInput(
+        self.audio_input = WebAudioProcessor(
             sample_rate=self.sample_rate,
             buffer_duration=self.buffer_duration,
         )

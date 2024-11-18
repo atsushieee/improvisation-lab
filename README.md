@@ -10,12 +10,23 @@ https://github.com/user-attachments/assets/a4207f7e-166c-4f50-9c19-5bf5269fd04e
 ## Features
 
 - Generate melodic phrases based on scales and chord progressions
-- Support for multiple scale types (major, natural minor, harmonic minor)
-- Support for various chord types (maj7, min7, dom7, dim7, etc.)
-- Intelligent note selection based on chord tones and scale degrees
-- Natural phrase connections and melodic movement
-- Real-time pitch detection for practice feedback
-- Music theory-based approach to improvisation
+- Support for multiple scale types:
+  - Major
+  - Natural minor
+  - Harmonic minor
+  - Diminished
+- Support for various chord types:
+  - Major 7th (maj7)
+  - Minor 7th (min7)
+  - Dominant 7th (dom7)
+  - Half-diminished (min7b5)
+  - Diminished 7th (dim7)
+- Intelligent note selection based on:
+  - Chord tones vs non-chord tones
+  - Scale degrees
+  - Previous note context
+- Real-time pitch detection with FCPE (Fast Context-aware Pitch Estimation)
+- Web-based and direct microphone input support
 
 ## Prerequisites
 
@@ -43,14 +54,11 @@ cp config.yml.example config.yml
 make run
 ```
 
-4. Follow the displayed melody phrases
-5. Sing along with the notes shown on screen
-6. Get real-time feedback on your pitch accuracy
+4. Follow the displayed melody phrases and sing along with real-time feedback
 
 ### Configuration
 
-The application can be customized through a `config.yml` file in the root directory. 
-The following options are available:
+The application can be customized through `config.yml` with the following options:
 
 #### Audio Settings
 - `sample_rate`: Audio sampling rate (default: 44100 Hz)
@@ -65,14 +73,15 @@ The following options are available:
 
 #### Song Selection
 - `selected_song`: Name of the song to practice
-- `chord_progressions`: Dictionary of available songs and their chord progressions
-  - Each progression is defined as: `[scale_root, scale_type, chord_root, chord_type, duration]`
-  - Supported scale types: major, natural_minor, harmonic_minor, diminished
-  - Supported chord types: maj7, min7, dom7, min7(b5)
-
-### Custom Songs
-
-You can add your own songs by adding new entries to the `chord_progressions` section:
+- `chord_progressions`: Dictionary of songs and their progressions
+  - Format: `[scale_root, scale_type, chord_root, chord_type, duration]`
+  - Example:
+    ```yaml
+    fly_me_to_the_moon:
+      - ["A", "natural_minor", "A", "min7", 4]
+      - ["A", "natural_minor", "D", "min7", 4]
+      - ["C", "major", "G", "dom7", 4]
+    ```
 
 
 ## How It Works

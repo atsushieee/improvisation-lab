@@ -5,10 +5,11 @@ from typing import Callable
 import numpy as np
 from scipy import signal
 
-from improvisation_lab.infrastructure.audio.audio_input import AudioInput
+from improvisation_lab.infrastructure.audio.audio_processor import \
+    AudioProcessor
 
 
-class GradioAudioInput(AudioInput):
+class WebAudioProcessor(AudioProcessor):
     """Handle audio input from Gradio interface."""
 
     def __init__(
