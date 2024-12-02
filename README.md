@@ -48,10 +48,16 @@ cp config.yml.example config.yml
 
 2.  (Optional) Edit `config.yml` to customize settings like audio parameters and song selection
 
-3. Run the script to start the melody generation and playback:
+3. Run the script to start the melody generation and playback (default is web interface):
 
 ```bash
 make run
+```
+
+- To run the console interface, use:
+
+```bash
+poetry run python main.py --app_type console
 ```
 
 4. Follow the displayed melody phrases and sing along with real-time feedback
