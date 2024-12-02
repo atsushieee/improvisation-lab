@@ -5,9 +5,9 @@ import time
 import numpy as np
 import pytest
 
-from improvisation_lab.application.melody_practice_service import (
-    MelodyPracticeService, PitchResult)
 from improvisation_lab.config import Config
+from improvisation_lab.service.melody_practice_service import (
+    MelodyPracticeService, PitchResult)
 
 
 class TestMelodyService:
