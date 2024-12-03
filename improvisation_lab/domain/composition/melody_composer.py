@@ -21,14 +21,9 @@ class PhraseData:
 class MelodyComposer:
     """Class responsible for generating melodic phrases based on chord progressions."""
 
-    def __init__(self, phrase_generator: PhraseGenerator):
-        """Initialize MelodyPlayer with a melody generator.
-
-        Args:
-            melody_generator:
-                Component responsible for generating individual melodic phrases.
-        """
-        self.phrase_generator = phrase_generator
+    def __init__(self):
+        """Initialize MelodyPlayer with a melody generator."""
+        self.phrase_generator = PhraseGenerator()
 
     def generate_phrases(
         self, progression: List[tuple[str, str, str, str, int]]

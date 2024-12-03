@@ -2,16 +2,14 @@
 
 import pytest
 
-from improvisation_lab.domain.composition import (MelodyComposer,
-                                                  PhraseGenerator)
+from improvisation_lab.domain.composition.melody_composer import MelodyComposer
 
 
 class TestMelodyComposer:
     @pytest.fixture
     def init_module(self):
         """Initialize test module."""
-        self.phrase_generator = PhraseGenerator()
-        self.melody_composer = MelodyComposer(self.phrase_generator)
+        self.melody_composer = MelodyComposer()
 
     @pytest.mark.usefixtures("init_module")
     def test_generate_phrases_basic(self):
@@ -68,17 +66,19 @@ class TestMelodyComposer:
             first_note = phrases[1].notes[0]
 
             # Check if the last note is a chord tone of either chord
-            is_first_chord_tone = self.phrase_generator.is_chord_tone(
+            is_first_chord_tone = self.melody_composer.phrase_generator.is_chord_tone(
                 last_note, first_chord_tones
             )
-            is_second_chord_tone = self.phrase_generator.is_chord_tone(
+            is_second_chord_tone = self.melody_composer.phrase_generator.is_chord_tone(
                 last_note, second_chord_tones
             )
 
             # If the last note is not a chord tone of either chord
             if not is_first_chord_tone and not is_second_chord_tone:
                 # Then first note should be adjacent
-                adjacent_notes = self.phrase_generator.get_adjacent_notes(
-                    last_note, ["C", "D", "E", "F", "G", "A", "B"]
+                adjacent_notes = (
+                    self.melody_composer.phrase_generator.get_adjacent_notes(
+                        last_note, ["C", "D", "E", "F", "G", "A", "B"]
+                    )
                 )
                 assert first_note in adjacent_notes

@@ -7,8 +7,7 @@ import numpy as np
 
 from improvisation_lab.config import Config
 from improvisation_lab.domain.analysis import PitchDetector
-from improvisation_lab.domain.composition import (MelodyComposer, PhraseData,
-                                                  PhraseGenerator)
+from improvisation_lab.domain.composition import MelodyComposer, PhraseData
 from improvisation_lab.domain.music_theory import Notes
 
 
@@ -28,8 +27,7 @@ class MelodyPracticeService:
     def __init__(self, config: Config):
         """Initialize MelodyPracticeService with configuration."""
         self.config = config
-        self.phrase_generator = PhraseGenerator()
-        self.melody_composer = MelodyComposer(self.phrase_generator)
+        self.melody_composer = MelodyComposer()
         self.pitch_detector = PitchDetector(config.audio.pitch_detector)
 
         self.correct_pitch_start_time: float | None = None
