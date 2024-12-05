@@ -1,0 +1,12 @@
+---
+title: Improvisation Lab
+emoji: 🎵
+python_version: 3.11
+colorFrom: blue
+colorTo: purple
+sdk: gradio
+sdk_version: 5.7.1
+app_file: main.py
+pinned: false
+license: mit
+---

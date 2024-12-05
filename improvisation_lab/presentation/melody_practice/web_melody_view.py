@@ -81,13 +81,13 @@ class WebMelodyView:
             show_label=True,
         )
 
-        # inputsを明示的に指定しないとまったくコールバック関数が呼ばれないので、注意！
+        # attention: have to specify inputs explicitly, otherwise the callback function is not called
         audio_input.stream(
             fn=self.audio_callback,
             inputs=audio_input,
             outputs=[self.phrase_info, self.pitch_result],
             show_progress=False,
-            stream_every=0.05,
+            stream_every=0.1,
         )
 
     def launch(self, **kwargs):

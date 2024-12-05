@@ -30,6 +30,9 @@ class AudioProcessor(ABC):
 
     def _append_to_buffer(self, audio_data: np.ndarray) -> None:
         """Append new audio data to the buffer."""
+        # Convert stereo to mono if necessary
+        if audio_data.ndim > 1:
+            audio_data = np.mean(audio_data, axis=1)
         self._buffer = np.concatenate([self._buffer, audio_data])
 
     def _process_buffer(self) -> None:
