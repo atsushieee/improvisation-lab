@@ -30,9 +30,9 @@ class WebMelodyPracticeApp(BaseMelodyPracticeApp):
 
         # UIをコールバック関数と共に初期化
         self.ui = WebMelodyView(
-            start_callback=self.start,
-            stop_callback=self.stop,
-            audio_callback=self.handle_audio,
+            on_generate_melody=self.start,
+            on_end_practice=self.stop,
+            on_audio_input=self.handle_audio,
             song_name=config.selected_song,
         )
 

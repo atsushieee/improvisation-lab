@@ -14,64 +14,61 @@ class WebMelodyView:
 
     def __init__(
         self,
-        start_callback: Callable[[], tuple[str, str]],
-        stop_callback: Callable[[], tuple[str, str]],
-        audio_callback: Callable[[Any], tuple[str, str]],
+        on_generate_melody: Callable[[], tuple[str, str]],
+        on_end_practice: Callable[[], tuple[str, str]],
+        on_audio_input: Callable[[Any], tuple[str, str]],
         song_name: str,
     ):
         """Initialize the UI with callback functions.
 
         Args:
-            start_callback: Function to call when start button is clicked
-            stop_callback: Function to call when stop button is clicked
-            audio_callback: Function to process audio input
+            on_generate_melody: Function to call when start button is clicked
+            on_end_practice: Function to call when stop button is clicked
+            on_audio_input: Function to process audio input
             song_name: Name of the song to be practiced
         """
-        self.start_callback = start_callback
-        self.stop_callback = stop_callback
-        self.audio_callback = audio_callback
+        self.on_generate_melody = on_generate_melody
+        self.on_end_practice = on_end_practice
+        self.on_audio_input = on_audio_input
         self.song_name = song_name
 
-    def _create_interface(self) -> gr.Blocks:
+    def _build_interface(self) -> gr.Blocks:
         """Create and configure the Gradio interface.
 
         Returns:
             gr.Blocks: The Gradio interface.
         """
         with gr.Blocks() as app:
-            self._create_header()
-            self._create_status_section()
-            self._create_control_buttons()
-            self._create_audio_input()
+            self._add_header()
+            self.generate_melody_button = gr.Button("Generate Melody")
+            with gr.Row():
+                self.phrase_info_box = gr.Textbox(label="Phrase Information", value="")
+                self.pitch_result_box = gr.Textbox(label="Pitch Result", value="")
+            self._add_audio_input()
+            self.end_practice_button = gr.Button("End Practice")
+
+            self._add_buttons_callbacks()
 
         return app
 
-    def _create_header(self):
+    def _add_header(self):
         """Create the header section of the UI."""
         gr.Markdown(f"# {self.song_name} Melody Practice\nSing each note for 1 second!")
 
-    def _create_status_section(self):
-        """Create the status display section."""
-        with gr.Row():
-            self.phrase_info = gr.Textbox(label="Phrase Information", value="")
-            self.pitch_result = gr.Textbox(label="Pitch Result", value="")
-
-    def _create_control_buttons(self):
+    def _add_buttons_callbacks(self):
         """Create the control buttons section."""
-        with gr.Row():
-            start_btn = gr.Button("Start")
-            stop_btn = gr.Button("Stop")
-
         # Connect button callbacks
-        start_btn.click(
-            fn=self.start_callback, outputs=[self.phrase_info, self.pitch_result]
+        self.generate_melody_button.click(
+            fn=self.on_generate_melody,
+            outputs=[self.phrase_info_box, self.pitch_result_box],
         )
 
-        stop_btn.click(
-            fn=self.stop_callback, outputs=[self.phrase_info, self.pitch_result]
+        self.end_practice_button.click(
+            fn=self.on_end_practice,
+            outputs=[self.phrase_info_box, self.pitch_result_box],
         )
 
-    def _create_audio_input(self):
+    def _add_audio_input(self):
         """Create the audio input section."""
         audio_input = gr.Audio(
             label="Audio Input",
@@ -81,11 +78,12 @@ class WebMelodyView:
             show_label=True,
         )
 
-        # attention: have to specify inputs explicitly, otherwise the callback function is not called
+        # Attention: have to specify inputs explicitly,
+        # otherwise the callback function is not called
         audio_input.stream(
-            fn=self.audio_callback,
+            fn=self.on_audio_input,
             inputs=audio_input,
-            outputs=[self.phrase_info, self.pitch_result],
+            outputs=[self.phrase_info_box, self.pitch_result_box],
             show_progress=False,
             stream_every=0.1,
         )
@@ -96,6 +94,6 @@ class WebMelodyView:
         Args:
             **kwargs: Additional keyword arguments for the launch method.
         """
-        app = self._create_interface()
+        app = self._build_interface()
         app.queue()
         app.launch(**kwargs)
