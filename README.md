@@ -2,9 +2,26 @@
 
 A Python package for generating musical improvisation melodies based on music theory principles. The package specializes in creating natural-sounding melodic phrases that follow chord progressions while respecting musical rules, with real-time pitch detection for practice feedback.
 
-Improvisation Lab Demo
+## Try it out! 🚀
+<a href="https://huggingface.co/spaces/atsushieee/improvisation-lab" target="_blank">
+    <img src="https://img.shields.io/badge/🤗_Demo-Hugging_Face-FFD21E?style=for-the-badge&logo=huggingface&logoColor=black" alt="Hugging Face Spaces" />
+</a>
 
-https://github.com/user-attachments/assets/a4207f7e-166c-4f50-9c19-5bf5269fd04e
+Watch the demo in action:
+
+https://github.com/user-attachments/assets/fa6e11d6-7b88-4b77-aa6e-a67c0927353d
+
+Experience Improvisation Lab directly in your browser! Our interactive demo lets you:
+
+- Generate melodic phrases based on chord progressions
+- Practice your pitch accuracy in real-time
+- Get instant visual guidance for hitting the right notes
+
+Note: The demo runs on Hugging Face Spaces' free tier, which means:
+
+- Performance might vary depending on server availability
+- If you encounter any issues, try refreshing the page or coming back later
+- For consistent performance, consider running the package locally
 
 
 ## Features
@@ -49,6 +66,8 @@ cp config.yml.example config.yml
 2.  (Optional) Edit `config.yml` to customize settings like audio parameters and song selection
 
 3. Run the script to start the melody generation and playback (default is web interface):
+
+- Access the web interface at [http://127.0.0.1:7860/](http://127.0.0.1:7860/).
 
 ```bash
 make run
