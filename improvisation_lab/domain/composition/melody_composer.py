@@ -3,9 +3,10 @@
 from dataclasses import dataclass
 from typing import List, Optional
 
+from improvisation_lab.domain.composition.note_transposer import NoteTransposer
 from improvisation_lab.domain.composition.phrase_generator import \
     PhraseGenerator
-from improvisation_lab.domain.music_theory import ChordTone
+from improvisation_lab.domain.music_theory import ChordTone, Notes
 
 
 @dataclass
@@ -24,6 +25,7 @@ class MelodyComposer:
     def __init__(self):
         """Initialize MelodyPlayer with a melody generator."""
         self.phrase_generator = PhraseGenerator()
+        self.note_transposer = NoteTransposer()
 
     def generate_phrases(
         self, progression: List[tuple[str, str, str, str, int]]
@@ -69,3 +71,21 @@ class MelodyComposer:
             )
 
         return phrases
+
+    def generate_interval_melody(
+        self, base_notes: List[Notes], interval: int
+    ) -> List[List[Notes]]:
+        """Generate a melody based on interval transitions.
+
+        Args:
+            base_notes: List of base notes to start from.
+            interval: Interval to move to and back.
+
+        Returns:
+            List of lists containing the generated melody.
+        """
+        melody = []
+        for base_note in base_notes:
+            target_note = self.note_transposer.transpose_note(base_note, interval)
+            melody.append([base_note, target_note, base_note])
+        return melody

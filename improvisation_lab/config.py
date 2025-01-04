@@ -49,12 +49,46 @@ class AudioConfig:
 
 
 @dataclass
+class IntervalPracticeConfig:
+    """Configuration settings for interval practice."""
+
+    num_problems: int = 10
+    interval: int = 1
+
+    @classmethod
+    def from_yaml(cls, yaml_data: dict) -> "IntervalPracticeConfig":
+        """Create IntervalPracticeConfig instance from YAML data."""
+        return cls(
+            num_problems=yaml_data.get("num_problems", cls.num_problems),
+            interval=yaml_data.get("interval", cls.interval),
+        )
+
+
+@dataclass
+class PiecePracticeConfig:
+    """Configuration settings for piece practice."""
+
+    selected_song: str = "fly_me_to_the_moon"
+    chord_progressions: dict = field(default_factory=dict)
+
+    @classmethod
+    def from_yaml(cls, yaml_data: dict) -> "PiecePracticeConfig":
+        """Create PiecePracticeConfig instance from YAML data."""
+        return cls(
+            selected_song=yaml_data.get("selected_song", cls.selected_song),
+            chord_progressions=yaml_data.get(
+                "chord_progressions", {cls.selected_song: []}
+            ),
+        )
+
+
+@dataclass
 class Config:
     """Application configuration handler."""
 
     audio: AudioConfig
-    selected_song: str
-    chord_progressions: dict
+    interval_practice: IntervalPracticeConfig
+    piece_practice: PiecePracticeConfig
 
     def __init__(self, config_path: str | Path = "config.yml"):
         """Initialize Config instance.
@@ -70,14 +104,17 @@ class Config:
             with open(self.config_path, "r") as f:
                 yaml_data = yaml.safe_load(f)
                 self.audio = AudioConfig.from_yaml(yaml_data.get("audio", {}))
-                self.selected_song = yaml_data.get(
-                    "selected_song", "fly_me_to_the_moon"
+                self.interval_practice = IntervalPracticeConfig.from_yaml(
+                    yaml_data.get("interval_practice", {})
                 )
-                self.chord_progressions = yaml_data.get("chord_progressions", {})
+                self.piece_practice = PiecePracticeConfig.from_yaml(
+                    yaml_data.get("piece_practice", {})
+                )
         else:
             self.audio = AudioConfig()
-            self.selected_song = "fly_me_to_the_moon"
-            self.chord_progressions = {
+            self.interval_practice = IntervalPracticeConfig()
+            self.piece_practice = PiecePracticeConfig()
+            self.piece_practice.chord_progressions = {
                 # opening 4 bars of Fly Me to the Moon
                 "fly_me_to_the_moon": [
                     ("A", "natural_minor", "A", "min7", 8),

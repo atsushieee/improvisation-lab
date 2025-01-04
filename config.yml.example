@@ -9,12 +9,17 @@ audio:
     f0_max: 880
     device: "cpu"
 
-selected_song: "fly_me_to_the_moon"
+interval_practice:
+  num_problems: 10
+  interval: 1
 
-chord_progressions:
-  fly_me_to_the_moon:
-    - ["A", "natural_minor", "A", "min7", 4]
-    - ["A", "natural_minor", "D", "min7", 4]
-    - ["C", "major", "G", "dom7", 4]
-    - ["C", "major", "C", "maj7", 2]
-    - ["F", "major", "C", "dom7", 2]
+piece_practice:
+  selected_song: "fly_me_to_the_moon"
+
+  chord_progressions:
+    fly_me_to_the_moon:
+      - ["A", "natural_minor", "A", "min7", 4]
+      - ["A", "natural_minor", "D", "min7", 4]
+      - ["C", "major", "G", "dom7", 4]
+      - ["C", "major", "C", "maj7", 2]
+      - ["F", "major", "C", "dom7", 2]

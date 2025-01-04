@@ -16,11 +16,17 @@ class TestConfig:
                 "buffer_duration": 0.3,
                 "note_duration": 4,
             },
-            "selected_song": "test_song",
-            "chord_progressions": {
-                "test_song": [
-                    ["C", "major", "C", "maj7", 4],
-                ]
+            "interval_practice": {
+                "num_problems": 15,
+                "interval": 2,
+            },
+            "piece_practice": {
+                "selected_song": "test_song",
+                "chord_progressions": {
+                    "test_song": [
+                        ["C", "major", "C", "maj7", 4],
+                    ]
+                },
             },
         }
         config_file = tmp_path / "test_config.yml"
@@ -35,8 +41,10 @@ class TestConfig:
         assert config.audio.sample_rate == 48000
         assert config.audio.buffer_duration == 0.3
         assert config.audio.note_duration == 4
-        assert config.selected_song == "test_song"
-        assert "test_song" in config.chord_progressions
+        assert config.interval_practice.num_problems == 15
+        assert config.interval_practice.interval == 2
+        assert config.piece_practice.selected_song == "test_song"
+        assert "test_song" in config.piece_practice.chord_progressions
 
     def test_load_config_with_defaults(self):
         """Test loading configuration with default values when file doesn't exist."""
@@ -45,8 +53,10 @@ class TestConfig:
         assert config.audio.sample_rate == 44100
         assert config.audio.buffer_duration == 0.2
         assert config.audio.note_duration == 1.0
-        assert config.selected_song == "fly_me_to_the_moon"
-        assert "fly_me_to_the_moon" in config.chord_progressions
+        assert config.interval_practice.num_problems == 10
+        assert config.interval_practice.interval == 1
+        assert config.piece_practice.selected_song == "fly_me_to_the_moon"
+        assert "fly_me_to_the_moon" in config.piece_practice.chord_progressions
 
     def test_audio_config_from_yaml(self):
         """Test creating AudioConfig from YAML data."""

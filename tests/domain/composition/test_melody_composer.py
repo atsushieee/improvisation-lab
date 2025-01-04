@@ -3,6 +3,7 @@
 import pytest
 
 from improvisation_lab.domain.composition.melody_composer import MelodyComposer
+from improvisation_lab.domain.music_theory import Notes
 
 
 class TestMelodyComposer:
@@ -82,3 +83,24 @@ class TestMelodyComposer:
                     )
                 )
                 assert first_note in adjacent_notes
+
+    @pytest.mark.usefixtures("init_module")
+    def test_generate_interval_melody(self):
+        """Test interval melody generation."""
+        base_notes = [Notes.C, Notes.E, Notes.G, Notes.B]
+        interval = 2
+
+        melody = self.melody_composer.generate_interval_melody(base_notes, interval)
+
+        # Check the length of the melody
+        assert len(melody) == len(base_notes)
+        assert len(melody[0]) == 3
+
+        # Check the structure of the melody
+        for i, base_note in enumerate(base_notes):
+            assert melody[i][0] == base_note
+            transposed_note = self.melody_composer.note_transposer.transpose_note(
+                base_note, interval
+            )
+            assert melody[i][1] == transposed_note
+            assert melody[i][2] == base_note

@@ -6,10 +6,8 @@ using either a web or console interface.
 
 import argparse
 
-from improvisation_lab.application.melody_practice import \
-    MelodyPracticeAppFactory
+from improvisation_lab.application import PracticeAppFactory
 from improvisation_lab.config import Config
-from improvisation_lab.service import MelodyPracticeService
 
 
 def main():
@@ -21,11 +19,16 @@ def main():
         default="web",
         help="Type of application to run (web or console)",
     )
+    parser.add_argument(
+        "--practice_type",
+        choices=["interval", "piece"],
+        default="interval",
+        help="Type of practice to run (interval or piece)",
+    )
     args = parser.parse_args()
 
     config = Config()
-    service = MelodyPracticeService(config)
-    app = MelodyPracticeAppFactory.create_app(args.app_type, service, config)
+    app = PracticeAppFactory.create_app(args.app_type, args.practice_type, config)
     app.launch()
 
 

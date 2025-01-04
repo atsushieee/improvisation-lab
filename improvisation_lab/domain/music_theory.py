@@ -170,3 +170,26 @@ class ChordTone:
         chord_pattern = cls.CHORD_TONES[chord_type]
         chromatic = Notes.get_chromatic_scale(root_note)
         return [chromatic[interval] for interval in chord_pattern]
+
+
+class Intervals:
+    """Musical interval representation and operations.
+
+    This class handles interval-related operations
+    including interval generation and interval calculation.
+    """
+
+    INTERVALS_MAP = {
+        "minor 2nd": 1,
+        "major 2nd": 2,
+        "minor 3rd": 3,
+        "major 3rd": 4,
+        "perfect 4th": 5,
+        "diminished 5th": 6,
+        "perfect 5th": 7,
+        "minor 6th": 8,
+        "major 6th": 9,
+        "minor 7th": 10,
+        "major 7th": 11,
+        "perfect 8th": 12,
+    }
