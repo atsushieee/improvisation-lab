@@ -57,7 +57,6 @@ class WebIntervalPracticeView(WebPracticeView):
         Returns:
             gr.Blocks: The Gradio interface.
         """
-        # with gr.Blocks() as app:
         with gr.Blocks(
             head="""
             <script src="https://cdn.jsdelivr.net/npm/tone@14.8.39/build/Tone.js">
