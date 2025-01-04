@@ -1,7 +1,7 @@
-"""Presentation layer for melody practice.
+"""Presentation layer for piece practice.
 
 This package contains modules for handling the user interface
-and text management for melody practice applications.
+and text management for piece practice applications.
 """
 
 from improvisation_lab.presentation.piece_practice.console_piece_view import \

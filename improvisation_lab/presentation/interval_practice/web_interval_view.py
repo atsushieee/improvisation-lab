@@ -1,3 +1,9 @@
+"""Web-based interval practice view.
+
+This module provides a web interface using Gradio for visualizing
+and interacting with interval practice sessions.
+"""
+
 from typing import Callable, Tuple
 
 import gradio as gr
@@ -15,7 +21,7 @@ class WebIntervalPracticeView(WebPracticeView):
         self,
         on_generate_melody: Callable[[str, str, int], Tuple[str, str, str]],
         on_end_practice: Callable[[], Tuple[str, str, str]],
-        on_audio_input: Callable[[int, np.ndarray], Tuple[str, str, str]],
+        on_audio_input: Callable[[Tuple[int, np.ndarray]], Tuple[str, str, str]],
         config: Config,
     ):
         """Initialize the UI with callback functions.

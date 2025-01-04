@@ -19,7 +19,7 @@ class WebPiecePracticeView(WebPracticeView):
         self,
         on_generate_melody: Callable[[], Tuple[str, str]],
         on_end_practice: Callable[[], Tuple[str, str]],
-        on_audio_input: Callable[[int, np.ndarray], Tuple[str, str]],
+        on_audio_input: Callable[[Tuple[int, np.ndarray]], Tuple[str, str]],
         song_name: str,
     ):
         """Initialize the UI with callback functions.

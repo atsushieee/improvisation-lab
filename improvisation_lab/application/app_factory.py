@@ -23,20 +23,20 @@ class PracticeAppFactory:
         """
         if app_type == "web":
             if practice_type == "piece":
-                service = PiecePracticeService(config)
-                return WebPiecePracticeApp(service, config)
+                piece_service = PiecePracticeService(config)
+                return WebPiecePracticeApp(piece_service, config)
             elif practice_type == "interval":
-                service = IntervalPracticeService(config)
-                return WebIntervalPracticeApp(service, config)
+                interval_service = IntervalPracticeService(config)
+                return WebIntervalPracticeApp(interval_service, config)
             else:
                 raise ValueError(f"Unknown practice type: {practice_type}")
         elif app_type == "console":
             if practice_type == "piece":
-                service = PiecePracticeService(config)
-                return ConsolePiecePracticeApp(service, config)
+                piece_service = PiecePracticeService(config)
+                return ConsolePiecePracticeApp(piece_service, config)
             elif practice_type == "interval":
-                service = IntervalPracticeService(config)
-                return ConsoleIntervalPracticeApp(service, config)
+                interval_service = IntervalPracticeService(config)
+                return ConsoleIntervalPracticeApp(interval_service, config)
             else:
                 raise ValueError(f"Unknown practice type: {practice_type}")
         else:

@@ -1,12 +1,11 @@
 """Base class for melody practice applications."""
 
 from abc import ABC, abstractmethod
-from typing import List, Optional
+from typing import Any, Optional
 
 import numpy as np
 
 from improvisation_lab.config import Config
-from improvisation_lab.domain.composition import PhraseData
 from improvisation_lab.service.base_practice_service import BasePracticeService
 
 
@@ -22,7 +21,7 @@ class BasePracticeApp(ABC):
         """
         self.service = service
         self.config = config
-        self.phrases: Optional[List[PhraseData]] = None
+        self.phrases: Optional[Any] = None
         self.current_phrase_idx: int = 0
         self.current_note_idx: int = 0
         self.is_running: bool = False

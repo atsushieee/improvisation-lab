@@ -1,3 +1,9 @@
+"""Presentation layer for interval practice.
+
+This package contains modules for handling the user interface
+and text management for interval practice applications.
+"""
+
 from improvisation_lab.presentation.interval_practice.console_interval_view import \
     ConsoleIntervalPracticeView
 from improvisation_lab.presentation.interval_practice.interval_view_text_manager import \

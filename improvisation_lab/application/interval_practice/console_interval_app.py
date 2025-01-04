@@ -31,10 +31,14 @@ class ConsoleIntervalPracticeApp(ConsoleBasePracticeApp):
         Returns:
             The current note to be processed.
         """
+        if self.phrases is None:
+            raise ValueError("Phrases are not initialized.")
         return self.phrases[self.current_phrase_idx][self.current_note_idx].value
 
     def _get_current_phrase(self) -> List[Notes]:
         """Return the current phrase to be processed."""
+        if self.phrases is None:
+            raise ValueError("Phrases are not initialized.")
         return self.phrases[self.current_phrase_idx]
 
     def _generate_melody(self) -> List[List[Notes]]:
