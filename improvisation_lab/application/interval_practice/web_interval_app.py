@@ -1,6 +1,6 @@
 """Web application for interval practice."""
 
-from typing import Tuple
+from typing import Any, List, Tuple
 
 import numpy as np
 
@@ -39,6 +39,7 @@ class WebIntervalPracticeApp(BasePracticeApp):
             config=config,
         )
         self.base_note = "-"
+        self.results_table: List[List[Any]] = []
 
     def _process_audio_callback(self, audio_data: np.ndarray):
         """Process incoming audio data and update the application state.
@@ -68,6 +69,8 @@ class WebIntervalPracticeApp(BasePracticeApp):
         """Advance to the next note or phrase."""
         if self.phrases is None:
             return
+
+        self.update_results_table()
         self.current_note_idx += 1
         if self.current_note_idx >= len(self.phrases[self.current_phrase_idx]):
             self.current_note_idx = 0
@@ -78,30 +81,32 @@ class WebIntervalPracticeApp(BasePracticeApp):
                 self.current_note_idx
             ].value
 
-    def handle_audio(self, audio: Tuple[int, np.ndarray]) -> Tuple[str, str, str]:
+    def handle_audio(self, audio: Tuple[int, np.ndarray]) -> Tuple[str, str, str, List]:
         """Handle audio input from Gradio interface.
 
         Args:
             audio: Audio data to process.
 
         Returns:
-            Tuple[str, str, str]:
+            Tuple[str, str, str, List]:
                 The current base note including the next base note,
-                target note, and result text.
+                target note, result text, and results table.
         """
         if not self.is_running:
-            return "-", "Not running", "Start the session first"
+            return "-", "Not running", "Start the session first", []
 
         self.audio_processor.process_audio(audio)
+
         return (
             self.base_note,
             self.text_manager.phrase_text,
             self.text_manager.result_text,
+            self.results_table,
         )
 
     def start(
         self, interval: str, direction: str, number_problems: int
-    ) -> Tuple[str, str, str]:
+    ) -> Tuple[str, str, str, List]:
         """Start a new practice session.
 
         Args:
@@ -110,9 +115,9 @@ class WebIntervalPracticeApp(BasePracticeApp):
             number_problems: Number of problems to generate.
 
         Returns:
-            Tuple[str, str, str]:
+            Tuple[str, str, str, List]:
                 The current base note including the next base note,
-                target note, and result text.
+                target note, result text, and results table.
         """
         semitone_interval = Intervals.INTERVALS_MAP.get(interval, 0)
 
@@ -133,11 +138,13 @@ class WebIntervalPracticeApp(BasePracticeApp):
             self.audio_processor.start_recording()
 
         self.text_manager.update_phrase_text(self.current_phrase_idx, self.phrases)
+        self.results_table = []
 
         return (
             self.base_note,
             self.text_manager.phrase_text,
             self.text_manager.result_text,
+            self.results_table,
         )
 
     def stop(self) -> Tuple[str, str, str]:
@@ -162,3 +169,22 @@ class WebIntervalPracticeApp(BasePracticeApp):
     def launch(self, **kwargs):
         """Launch the application."""
         self.ui.launch(**kwargs)
+
+    def update_results_table(self):
+        """Update the results table with the latest result."""
+        target_note = self.phrases[self.current_phrase_idx][self.current_note_idx].value
+        if self.base_note == target_note:
+            return
+        detected_note = self.text_manager.result_text.split("|")[1].strip()
+        detected_note = detected_note.replace("Your note: ", "").replace(" ", "")
+        # Result determination
+        result = "⭕️" if detected_note == target_note else "X"
+        new_result = [
+            self.current_phrase_idx + 1,
+            self.base_note,
+            target_note,
+            detected_note,
+            result,
+        ]
+
+        self.results_table.append(new_result)

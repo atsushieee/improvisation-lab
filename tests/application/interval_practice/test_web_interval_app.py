@@ -65,11 +65,14 @@ class TestWebIntervalPracticeApp:
         with patch.object(
             self.app.audio_processor, "process_audio", return_value=None
         ) as mock_process_audio:
-            base_note, phrase_text, result_text = self.app.handle_audio(audio_data)
+            base_note, phrase_text, result_text, results_table = self.app.handle_audio(
+                audio_data
+            )
             mock_process_audio.assert_called_once_with(audio_data)
             assert base_note == self.app.base_note
             assert phrase_text == self.app.text_manager.phrase_text
             assert result_text == self.app.text_manager.result_text
+            assert results_table == self.app.results_table
 
     @pytest.mark.usefixtures("init_module")
     def test_start(self):
@@ -78,12 +81,15 @@ class TestWebIntervalPracticeApp:
         with patch.object(
             self.app.audio_processor, "start_recording", return_value=None
         ) as mock_start_recording:
-            base_note, phrase_text, result_text = self.app.start("minor 2nd", "Up", 10)
+            base_note, phrase_text, result_text, results_table = self.app.start(
+                "minor 2nd", "Up", 10
+            )
             mock_start_recording.assert_called_once()
             assert self.app.is_running
             assert base_note == self.app.base_note
             assert phrase_text == self.app.text_manager.phrase_text
             assert result_text == self.app.text_manager.result_text
+            assert results_table == self.app.results_table
 
     @pytest.mark.usefixtures("init_module")
     def test_stop(self):
@@ -98,3 +104,23 @@ class TestWebIntervalPracticeApp:
             assert base_note == "-"
             assert phrase_text == self.app.text_manager.phrase_text
             assert result_text == self.app.text_manager.result_text
+
+    @pytest.mark.usefixtures("init_module")
+    @pytest.mark.parametrize(
+        "detected_note, expected_result",
+        [("C#", "⭕️"), ("D", "X")],  # Correct case  # Incorrect case
+    )
+    def test_update_results_table(self, detected_note, expected_result):
+        """Test updating the results table with correct and incorrect results."""
+        self.app.phrases = [[Notes.C, Notes.C_SHARP, Notes.C]]
+        self.app.current_phrase_idx = 0
+        self.app.current_note_idx = 1
+        self.app.base_note = "C"
+        self.app.text_manager.result_text = (
+            f"Target: C# | Your note: {detected_note} | Remaining: 0.0s"
+        )
+
+        self.app.update_results_table()
+
+        expected_entry = [1, "C", "C#", detected_note, expected_result]
+        assert self.app.results_table[-1] == expected_entry

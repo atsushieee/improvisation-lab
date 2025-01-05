@@ -4,7 +4,7 @@ This module provides a web interface using Gradio for visualizing
 and interacting with interval practice sessions.
 """
 
-from typing import Callable, Tuple
+from typing import Callable, List, Tuple
 
 import gradio as gr
 import numpy as np
@@ -19,9 +19,9 @@ class WebIntervalPracticeView(WebPracticeView):
 
     def __init__(
         self,
-        on_generate_melody: Callable[[str, str, int], Tuple[str, str, str]],
+        on_generate_melody: Callable[[str, str, int], Tuple[str, str, str, List]],
         on_end_practice: Callable[[], Tuple[str, str, str]],
-        on_audio_input: Callable[[Tuple[int, np.ndarray]], Tuple[str, str, str]],
+        on_audio_input: Callable[[Tuple[int, np.ndarray]], Tuple[str, str, str, List]],
         config: Config,
     ):
         """Initialize the UI with callback functions.
@@ -86,6 +86,19 @@ class WebIntervalPracticeView(WebPracticeView):
             with gr.Row():
                 self.phrase_info_box = gr.Textbox(label="Problem Information", value="")
                 self.pitch_result_box = gr.Textbox(label="Pitch Result", value="")
+            self.results_table = gr.DataFrame(
+                headers=[
+                    "Problem Number",
+                    "Base Note",
+                    "Target Note",
+                    "Detected Note",
+                    "Result",
+                ],
+                datatype=["number", "str", "str", "str", "str"],
+                value=[],
+                label="Result History",
+            )
+
             self._add_audio_input()
             self.end_practice_button = gr.Button("End Practice")
 
@@ -143,7 +156,12 @@ class WebIntervalPracticeView(WebPracticeView):
         self.generate_melody_button.click(
             fn=self.on_generate_melody,
             inputs=[self.interval_box, self.direction_box, self.number_problems_box],
-            outputs=[self.base_note_box, self.phrase_info_box, self.pitch_result_box],
+            outputs=[
+                self.base_note_box,
+                self.phrase_info_box,
+                self.pitch_result_box,
+                self.results_table,
+            ],
         )
 
         self.end_practice_button.click(
@@ -166,7 +184,12 @@ class WebIntervalPracticeView(WebPracticeView):
         audio_input.stream(
             fn=self.on_audio_input,
             inputs=audio_input,
-            outputs=[self.base_note_box, self.phrase_info_box, self.pitch_result_box],
+            outputs=[
+                self.base_note_box,
+                self.phrase_info_box,
+                self.pitch_result_box,
+                self.results_table,
+            ],
             show_progress=False,
             stream_every=0.1,
         )

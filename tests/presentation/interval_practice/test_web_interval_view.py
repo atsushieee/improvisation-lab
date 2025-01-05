@@ -57,6 +57,7 @@ class TestWebIntervalPracticeView:
         assert isinstance(self.web_view.base_note_box, gr.Textbox)
         assert isinstance(self.web_view.phrase_info_box, gr.Textbox)
         assert isinstance(self.web_view.pitch_result_box, gr.Textbox)
+        assert isinstance(self.web_view.pitch_result_box, gr.Textbox)
 
     @pytest.mark.usefixtures("init_module")
     def test_create_control_buttons(self):
