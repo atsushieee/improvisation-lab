@@ -46,8 +46,13 @@ class TestViewTextManager:
         pitch_result = PitchResult(
             target_note="C", current_base_note="A", is_correct=False, remaining_time=2.5
         )
+        # Test without auto advance
         self.text_manager.update_pitch_result(pitch_result)
         assert (
             self.text_manager.result_text
             == "Target: C | Your note: A | Remaining: 2.5s"
         )
+
+        # Test with auto advance
+        self.text_manager.update_pitch_result(pitch_result, is_auto_advance=True)
+        assert self.text_manager.result_text == "Target: C | Your note: A"

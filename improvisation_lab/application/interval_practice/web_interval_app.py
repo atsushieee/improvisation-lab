@@ -1,5 +1,6 @@
 """Web application for interval practice."""
 
+import time
 from typing import Any, List, Tuple
 
 import numpy as np
@@ -40,6 +41,9 @@ class WebIntervalPracticeApp(BasePracticeApp):
         )
         self.base_note = "-"
         self.results_table: List[List[Any]] = []
+        self.progress_timer: float = 0.0
+        self.is_auto_advance = False
+        self.note_duration = 1.5
 
     def _process_audio_callback(self, audio_data: np.ndarray):
         """Process incoming audio data and update the application state.
@@ -57,10 +61,15 @@ class WebIntervalPracticeApp(BasePracticeApp):
         result = self.service.process_audio(audio_data, current_note)
 
         # Update status display
-        self.text_manager.update_pitch_result(result)
+        self.text_manager.update_pitch_result(result, self.is_auto_advance)
 
         # Progress to next note if current note is complete
-        if result.remaining_time <= 0:
+        if self.is_auto_advance:
+            current_time = time.time()
+            if current_time - self.progress_timer >= self.note_duration:
+                self._advance_to_next_note()
+                self.progress_timer = current_time
+        elif result.remaining_time <= 0:
             self._advance_to_next_note()
 
         self.text_manager.update_phrase_text(self.current_phrase_idx, self.phrases)
@@ -105,7 +114,12 @@ class WebIntervalPracticeApp(BasePracticeApp):
         )
 
     def start(
-        self, interval: str, direction: str, number_problems: int
+        self,
+        interval: str,
+        direction: str,
+        number_problems: int,
+        is_auto_advance: bool,
+        note_duration: float,
     ) -> Tuple[str, str, str, List]:
         """Start a new practice session.
 
@@ -113,6 +127,8 @@ class WebIntervalPracticeApp(BasePracticeApp):
             interval: Interval to move to and back.
             direction: Direction to move to and back.
             number_problems: Number of problems to generate.
+            is_auto_advance: Whether to automatically advance to the next note.
+            note_duration: Duration of each note in seconds.
 
         Returns:
             Tuple[str, str, str, List]:
@@ -139,6 +155,10 @@ class WebIntervalPracticeApp(BasePracticeApp):
 
         self.text_manager.update_phrase_text(self.current_phrase_idx, self.phrases)
         self.results_table = []
+
+        self.is_auto_advance = is_auto_advance
+        self.note_duration = note_duration
+        self.progress_timer = time.time()
 
         return (
             self.base_note,
@@ -172,6 +192,9 @@ class WebIntervalPracticeApp(BasePracticeApp):
 
     def update_results_table(self):
         """Update the results table with the latest result."""
+        if not self.is_auto_advance:
+            return
+
         target_note = self.phrases[self.current_phrase_idx][self.current_note_idx].value
         if self.base_note == target_note:
             return

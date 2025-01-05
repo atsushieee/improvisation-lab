@@ -31,17 +31,22 @@ class ViewTextManager(ABC):
         """Set the text to waiting for audio."""
         self.result_text = "Waiting for audio..."
 
-    def update_pitch_result(self, pitch_result: PitchResult):
+    def update_pitch_result(
+        self, pitch_result: PitchResult, is_auto_advance: bool = False
+    ):
         """Update the pitch result text.
 
         Args:
             pitch_result: The result of the pitch detection.
+            is_auto_advance:
+                Whether to automatically advance to the next note.
+                Default is False.
         """
         result_text = (
             f"Target: {pitch_result.target_note} | "
             f"Your note: {pitch_result.current_base_note or '---'}"
         )
-        if pitch_result.current_base_note is not None:
+        if pitch_result.current_base_note is not None and not is_auto_advance:
             result_text += f" | Remaining: {pitch_result.remaining_time:.1f}s"
         self.result_text = result_text
 

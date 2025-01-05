@@ -19,7 +19,9 @@ class WebIntervalPracticeView(WebPracticeView):
 
     def __init__(
         self,
-        on_generate_melody: Callable[[str, str, int], Tuple[str, str, str, List]],
+        on_generate_melody: Callable[
+            [str, str, int, bool, float], Tuple[str, str, str, List]
+        ],
         on_end_practice: Callable[[], Tuple[str, str, str]],
         on_audio_input: Callable[[Tuple[int, np.ndarray]], Tuple[str, str, str, List]],
         config: Config,
@@ -77,6 +79,15 @@ class WebIntervalPracticeView(WebPracticeView):
                 )
                 self.number_problems_box = gr.Number(
                     label="Number of Problems", value=self.init_num_problems
+                )
+            with gr.Row():
+                self.auto_advance_checkbox = gr.Checkbox(
+                    label="Auto Advance Mode",
+                    value=True,
+                )
+                self.note_duration_box = gr.Number(
+                    label="Note Duration (seconds)",
+                    value=1.5,
                 )
 
             self.generate_melody_button = gr.Button("Generate Melody")
@@ -155,7 +166,13 @@ class WebIntervalPracticeView(WebPracticeView):
         # Connect button callbacks
         self.generate_melody_button.click(
             fn=self.on_generate_melody,
-            inputs=[self.interval_box, self.direction_box, self.number_problems_box],
+            inputs=[
+                self.interval_box,
+                self.direction_box,
+                self.number_problems_box,
+                self.auto_advance_checkbox,
+                self.note_duration_box,
+            ],
             outputs=[
                 self.base_note_box,
                 self.phrase_info_box,

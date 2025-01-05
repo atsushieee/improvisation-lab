@@ -82,7 +82,7 @@ class TestWebIntervalPracticeApp:
             self.app.audio_processor, "start_recording", return_value=None
         ) as mock_start_recording:
             base_note, phrase_text, result_text, results_table = self.app.start(
-                "minor 2nd", "Up", 10
+                "minor 2nd", "Up", 10, True, 1.5
             )
             mock_start_recording.assert_called_once()
             assert self.app.is_running
@@ -116,10 +116,9 @@ class TestWebIntervalPracticeApp:
         self.app.current_phrase_idx = 0
         self.app.current_note_idx = 1
         self.app.base_note = "C"
-        self.app.text_manager.result_text = (
-            f"Target: C# | Your note: {detected_note} | Remaining: 0.0s"
-        )
+        self.app.text_manager.result_text = f"Target: C# | Your note: {detected_note}"
 
+        self.app.is_auto_advance = True
         self.app.update_results_table()
 
         expected_entry = [1, "C", "C#", detected_note, expected_result]
