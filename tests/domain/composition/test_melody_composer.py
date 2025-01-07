@@ -94,7 +94,7 @@ class TestMelodyComposer:
 
         # Check the length of the melody
         assert len(melody) == len(base_notes)
-        assert len(melody[0]) == 3
+        assert len(melody[0]) == 2
 
         # Check the structure of the melody
         for i, base_note in enumerate(base_notes):
@@ -103,4 +103,3 @@ class TestMelodyComposer:
                 base_note, interval
             )
             assert melody[i][1] == transposed_note
-            assert melody[i][2] == base_note

@@ -210,4 +210,4 @@ class WebIntervalPracticeApp(BasePracticeApp):
             result,
         ]
 
-        self.results_table.append(new_result)
+        self.results_table.insert(0, new_result)

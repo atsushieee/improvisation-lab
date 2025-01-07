@@ -97,6 +97,14 @@ class WebIntervalPracticeView(WebPracticeView):
             with gr.Row():
                 self.phrase_info_box = gr.Textbox(label="Problem Information", value="")
                 self.pitch_result_box = gr.Textbox(label="Pitch Result", value="")
+            """Create the audio input section."""
+            self.audio_input = gr.Audio(
+                label="Audio Input",
+                sources=["microphone"],
+                streaming=True,
+                type="numpy",
+                show_label=True,
+            )
             self.results_table = gr.DataFrame(
                 headers=[
                     "Problem Number",
@@ -110,9 +118,9 @@ class WebIntervalPracticeView(WebPracticeView):
                 label="Result History",
             )
 
-            self._add_audio_input()
             self.end_practice_button = gr.Button("End Practice")
 
+            self._add_audio_callbacks()
             self._add_buttons_callbacks()
 
             # Add Tone.js script
@@ -186,21 +194,13 @@ class WebIntervalPracticeView(WebPracticeView):
             outputs=[self.base_note_box, self.phrase_info_box, self.pitch_result_box],
         )
 
-    def _add_audio_input(self):
+    def _add_audio_callbacks(self):
         """Create the audio input section."""
-        audio_input = gr.Audio(
-            label="Audio Input",
-            sources=["microphone"],
-            streaming=True,
-            type="numpy",
-            show_label=True,
-        )
-
         # Attention: have to specify inputs explicitly,
         # otherwise the callback function is not called
-        audio_input.stream(
+        self.audio_input.stream(
             fn=self.on_audio_input,
-            inputs=audio_input,
+            inputs=self.audio_input,
             outputs=[
                 self.base_note_box,
                 self.phrase_info_box,

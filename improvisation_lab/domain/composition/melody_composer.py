@@ -87,5 +87,5 @@ class MelodyComposer:
         melody = []
         for base_note in base_notes:
             target_note = self.note_transposer.transpose_note(base_note, interval)
-            melody.append([base_note, target_note, base_note])
+            melody.append([base_note, target_note])
         return melody
