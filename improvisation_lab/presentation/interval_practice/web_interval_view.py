@@ -87,7 +87,7 @@ class WebIntervalPracticeView(WebPracticeView):
                 )
                 self.note_duration_box = gr.Number(
                     label="Note Duration (seconds)",
-                    value=1.5,
+                    value=3.0,
                 )
 
             self.generate_melody_button = gr.Button("Generate Melody")
@@ -105,6 +105,7 @@ class WebIntervalPracticeView(WebPracticeView):
                 type="numpy",
                 show_label=True,
             )
+            self.end_practice_button = gr.Button("End Practice")
             self.results_table = gr.DataFrame(
                 headers=[
                     "Problem Number",
@@ -117,8 +118,6 @@ class WebIntervalPracticeView(WebPracticeView):
                 value=[],
                 label="Result History",
             )
-
-            self.end_practice_button = gr.Button("End Practice")
 
             self._add_audio_callbacks()
             self._add_buttons_callbacks()

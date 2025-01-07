@@ -43,7 +43,7 @@ class WebIntervalPracticeApp(BasePracticeApp):
         self.results_table: List[List[Any]] = []
         self.progress_timer: float = 0.0
         self.is_auto_advance = False
-        self.note_duration = 1.5
+        self.note_duration = 3.0
 
     def _process_audio_callback(self, audio_data: np.ndarray):
         """Process incoming audio data and update the application state.
@@ -82,13 +82,11 @@ class WebIntervalPracticeApp(BasePracticeApp):
         self.update_results_table()
         self.current_note_idx += 1
         if self.current_note_idx >= len(self.phrases[self.current_phrase_idx]):
-            self.current_note_idx = 0
+            self.current_note_idx = 1
             self.current_phrase_idx += 1
             if self.current_phrase_idx >= len(self.phrases):
                 self.current_phrase_idx = 0
-            self.base_note = self.phrases[self.current_phrase_idx][
-                self.current_note_idx
-            ].value
+            self.base_note = self.phrases[self.current_phrase_idx][0].value
 
     def handle_audio(self, audio: Tuple[int, np.ndarray]) -> Tuple[str, str, str, List]:
         """Handle audio input from Gradio interface.
@@ -143,11 +141,10 @@ class WebIntervalPracticeApp(BasePracticeApp):
             num_notes=number_problems, interval=semitone_interval
         )
         self.current_phrase_idx = 0
-        self.current_note_idx = 0
+        self.current_note_idx = 1
         self.is_running = True
 
-        present_note = self.phrases[0][0].value
-        self.base_note = present_note
+        self.base_note = self.phrases[0][0].value
 
         if not self.audio_processor.is_recording:
             self.text_manager.initialize_text()
