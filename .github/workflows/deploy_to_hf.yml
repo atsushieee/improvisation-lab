@@ -21,17 +21,11 @@ jobs:
 
     - name: Install Poetry
       run: |
-        curl -sSL https://install.python-poetry.org | python3 -
+        curl -sSL https://install.python-poetry.org | POETRY_VERSION=1.7.1 python3 -
         echo "$HOME/.local/bin" >> $GITHUB_PATH
 
-    - name: Verify Poetry installation
-      run: poetry --version
-
     - name: Export requirements.txt
-      shell: bash
-      run: |
-        source $HOME/.profile
-        poetry export -f requirements.txt --output requirements.txt --without-hashes
+      run: poetry export -f requirements.txt --output requirements.txt --without-hashes
 
     - name: Create packages.txt
       run: |
