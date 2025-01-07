@@ -22,10 +22,16 @@ jobs:
     - name: Install Poetry
       run: |
         curl -sSL https://install.python-poetry.org | python3 -
-        echo "${{ runner.tool_cache }}/poetry/bin" >> $GITHUB_PATH
+        echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+    - name: Verify Poetry installation
+      run: poetry --version
 
     - name: Export requirements.txt
-      run: poetry export -f requirements.txt --output requirements.txt --without-hashes
+      shell: bash
+      run: |
+        source $HOME/.profile
+        poetry export -f requirements.txt --output requirements.txt --without-hashes
 
     - name: Create packages.txt
       run: |
