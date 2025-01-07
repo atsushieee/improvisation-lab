@@ -207,5 +207,5 @@ class WebIntervalPracticeView(WebPracticeView):
                 self.results_table,
             ],
             show_progress=False,
-            stream_every=0.1,
+            stream_every=0.3,
         )

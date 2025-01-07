@@ -50,8 +50,8 @@ class TestConfig:
         """Test loading configuration with default values when file doesn't exist."""
         config = Config(config_path="nonexistent.yml")
 
-        assert config.audio.sample_rate == 44100
-        assert config.audio.buffer_duration == 0.2
+        assert config.audio.sample_rate == 16000
+        assert config.audio.buffer_duration == 0.3
         assert config.audio.note_duration == 1.0
         assert config.interval_practice.num_problems == 10
         assert config.interval_practice.interval == 1

@@ -10,7 +10,7 @@ import yaml
 class PitchDetectorConfig:
     """Configuration settings for pitch detection."""
 
-    sample_rate: int = 44100
+    sample_rate: int = 16000
     hop_length: int = 512
     decoder_mode: str = "local_argmax"
     threshold: float = 0.006
@@ -24,8 +24,8 @@ class PitchDetectorConfig:
 class AudioConfig:
     """Configuration class for audio-related settings."""
 
-    sample_rate: int = 44100
-    buffer_duration: float = 0.2
+    sample_rate: int = 16000
+    buffer_duration: float = 0.3
     note_duration: float = 1.0
     pitch_detector: PitchDetectorConfig = field(default_factory=PitchDetectorConfig)
 

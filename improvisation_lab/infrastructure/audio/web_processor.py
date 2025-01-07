@@ -16,7 +16,7 @@ class WebAudioProcessor(AudioProcessor):
         self,
         sample_rate: int,
         callback: Callable[[np.ndarray], None] | None = None,
-        buffer_duration: float = 0.2,
+        buffer_duration: float = 0.3,
     ):
         """Initialize GradioAudioInput.
 

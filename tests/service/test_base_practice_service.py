@@ -36,7 +36,7 @@ class TestBasePracticeService:
     @pytest.mark.usefixtures("init_module")
     def test_process_audio_with_voice(self):
         """Test processing audio with voice detected."""
-        sample_rate = 44100
+        sample_rate = 16000
         duration = 0.1
         t = np.linspace(0, duration, int(sample_rate * duration))
         audio_data = np.sin(2 * np.pi * 440 * t)
@@ -50,7 +50,7 @@ class TestBasePracticeService:
     @pytest.mark.usefixtures("init_module")
     def test_process_audio_incorrect_pitch(self):
         """Test processing audio with incorrect pitch."""
-        sample_rate = 44100
+        sample_rate = 16000
         duration = 0.1
         t = np.linspace(0, duration, int(sample_rate * duration))
         # Generate 440Hz (A4) when target is C4
@@ -66,7 +66,7 @@ class TestBasePracticeService:
     @pytest.mark.usefixtures("init_module")
     def test_correct_pitch_timing(self):
         """Test timing behavior with correct pitch."""
-        sample_rate = 44100
+        sample_rate = 16000
         duration = 0.1
         t = np.linspace(0, duration, int(sample_rate * duration))
         audio_data = np.sin(2 * np.pi * 440 * t)
@@ -89,7 +89,7 @@ class TestBasePracticeService:
     @pytest.mark.usefixtures("init_module")
     def test_correct_pitch_completion(self):
         """Test completion of correct pitch duration."""
-        sample_rate = 44100
+        sample_rate = 16000
         duration = 0.1
         t = np.linspace(0, duration, int(sample_rate * duration))
         audio_data = np.sin(2 * np.pi * 440 * t)
