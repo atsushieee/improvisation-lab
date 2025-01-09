@@ -53,7 +53,7 @@ class IntervalPracticeConfig:
     """Configuration settings for interval practice."""
 
     num_problems: int = 10
-    interval: int = 1
+    interval: int = 0
 
     @classmethod
     def from_yaml(cls, yaml_data: dict) -> "IntervalPracticeConfig":

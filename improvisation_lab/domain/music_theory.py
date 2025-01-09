@@ -180,6 +180,7 @@ class Intervals:
     """
 
     INTERVALS_MAP = {
+        "perfect 1st": 0,
         "minor 2nd": 1,
         "major 2nd": 2,
         "minor 3rd": 3,
@@ -191,5 +192,4 @@ class Intervals:
         "major 6th": 9,
         "minor 7th": 10,
         "major 7th": 11,
-        "perfect 8th": 12,
     }

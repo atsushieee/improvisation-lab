@@ -54,7 +54,7 @@ class TestConfig:
         assert config.audio.buffer_duration == 0.3
         assert config.audio.note_duration == 1.0
         assert config.interval_practice.num_problems == 10
-        assert config.interval_practice.interval == 1
+        assert config.interval_practice.interval == 0
         assert config.piece_practice.selected_song == "fly_me_to_the_moon"
         assert "fly_me_to_the_moon" in config.piece_practice.chord_progressions
 

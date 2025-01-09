@@ -50,7 +50,7 @@ class WebIntervalPracticeView(WebPracticeView):
                 for key, value in Intervals.INTERVALS_MAP.items()
                 if value == absolute_interval
             ),
-            "minor 2nd",  # Default value if no match is found
+            "perfect 1st",  # Default value if no match is found
         )
 
     def _build_interface(self) -> gr.Blocks:
@@ -87,7 +87,7 @@ class WebIntervalPracticeView(WebPracticeView):
                 )
                 self.note_duration_box = gr.Number(
                     label="Note Duration (seconds)",
-                    value=3.0,
+                    value=4.0,
                 )
 
             self.generate_melody_button = gr.Button("Generate Melody")

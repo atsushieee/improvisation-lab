@@ -193,8 +193,6 @@ class WebIntervalPracticeApp(BasePracticeApp):
             return
 
         target_note = self.phrases[self.current_phrase_idx][self.current_note_idx].value
-        if self.base_note == target_note:
-            return
         detected_note = self.text_manager.result_text.split("|")[1].strip()
         detected_note = detected_note.replace("Your note: ", "").replace(" ", "")
         # Result determination

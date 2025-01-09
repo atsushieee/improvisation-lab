@@ -35,7 +35,7 @@ class TestWebIntervalPracticeView:
         self.web_view._initialize_interval_settings()
         assert self.web_view.init_num_problems == 10
         assert self.web_view.initial_direction == "Up"
-        assert self.web_view.initial_interval_key == "minor 2nd"
+        assert self.web_view.initial_interval_key == "perfect 1st"
 
     @pytest.mark.usefixtures("init_module")
     def test_build_interface(self):

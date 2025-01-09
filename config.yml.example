@@ -11,7 +11,7 @@ audio:
 
 interval_practice:
   num_problems: 10
-  interval: 1
+  interval: 0
 
 piece_practice:
   selected_song: "fly_me_to_the_moon"
